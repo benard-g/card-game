@@ -5,6 +5,7 @@
   "scripts": {
     "start": "node build/src/main.js",
     "build": "tsc",
+    "dev": "tsc-watch --onSuccess 'yarn start'",
     "test": "yarn build && yarn test:lint && yarn test:jest",
     "test:lint": "eslint '{src,test}/**/*.{js,ts}'",
     "test:jest": "jest 'test/.*.test.ts' --coverage"
@@ -21,6 +22,7 @@
     "jest": "^26.0.1",
     "prettier": "^2.0.5",
     "ts-jest": "^26.0.0",
+    "tsc-watch": "^4.2.7",
     "typescript": "^3.9.3"
   }
 }
