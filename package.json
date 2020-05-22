@@ -4,8 +4,8 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "build": "yarn wsrun -t build",
-    "test": "echo no tests && exit 1"
+    "build": "wsrun -t build",
+    "test": "wsrun -s test"
   },
   "workspaces": [
     "packages/*"

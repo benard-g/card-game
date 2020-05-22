@@ -1,0 +1,25 @@
+{
+  "include": ["src", "test"],
+  "compilerOptions": {
+    /* Basic Options */
+    "incremental": true,
+    "target": "ES2020",
+    "module": "commonjs",
+    "sourceMap": true,
+    "outDir": "./build",
+    "types": ["node", "jest"],
+    "composite": true,
+    "tsBuildInfoFile": "./build/tsbuildinfo.json",
+
+    /* Strict Type-Checking Options */
+    "strict": true,
+
+    /* Module Resolution Options */
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+
+    /* Experimental Options */
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
+  }
+}
