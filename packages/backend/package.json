@@ -10,7 +10,9 @@
     "test:lint": "eslint '{src,test}/**/*.{js,ts}'",
     "test:jest": "jest 'test/.*.test.ts' --coverage"
   },
-  "dependencies": {},
+  "dependencies": {
+    "winston": "^3.2.1"
+  },
   "devDependencies": {
     "@types/jest": "^25.2.3",
     "@types/node": "^14.0.5",
