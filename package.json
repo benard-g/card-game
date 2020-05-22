@@ -1,0 +1,19 @@
+{
+  "name": "card-game",
+  "author": "Guillaume Benard <guillaume@benard.io>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "build": "yarn wsrun -t build",
+    "test": "echo no tests && exit 1"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "engines": {
+    "node": "v12.16.3"
+  },
+  "devDependencies": {
+    "wsrun": "^5.2.0"
+  }
+}
