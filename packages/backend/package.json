@@ -6,7 +6,9 @@
     "start": "node build/src/main.js",
     "build": "tsc",
     "dev": "tsc-watch --onSuccess 'yarn start'",
-    "test": "yarn build && yarn test:lint && yarn test:jest",
+    "migrate": "migrate-mongo up",
+    "migrate:status": "migrate-mongo status",
+    "test": "yarn build && yarn migrate && yarn test:lint && yarn test:jest",
     "test:lint": "eslint '{src,test}/**/*.{js,ts}'",
     "test:jest": "jest 'test/.*.test.ts' --coverage"
   },
@@ -30,6 +32,7 @@
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-prettier": "^3.1.3",
     "jest": "^26.0.1",
+    "migrate-mongo": "^7.2.1",
     "prettier": "^2.0.5",
     "ts-jest": "^26.0.0",
     "tsc-watch": "^4.2.7",
