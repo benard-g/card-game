@@ -1,7 +1,7 @@
 import { ServiceProvider } from '../../../src/services/ServiceProvider';
 
 import configFixtures from '../../__fixtures__/config.fixtures';
-import { loggerMock, logger } from '../../__utils__/loggerMock';
+import { logger, loggerMock } from '../../__utils__/loggerMock';
 
 describe('services/ServiceProvider', () => {
   it('should create a ServiceProvider', async () => {
