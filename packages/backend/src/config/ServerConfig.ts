@@ -6,6 +6,6 @@ export interface ServerConfig {
 
 export function load(): ServerConfig {
   return {
-    port: getNumberFromEnv('PORT', 3000),
+    port: getNumberFromEnv('PORT', 8080),
   };
 }

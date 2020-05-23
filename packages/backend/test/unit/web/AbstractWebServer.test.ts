@@ -55,15 +55,15 @@ describe('web/AbstractWebServer', () => {
       const port = await webProcess.start();
       const closeStatus = await webProcess.stop();
 
-      expect(port).toBe(3000);
+      expect(port).toBe(8080);
       expect(closeStatus).toBe(true);
 
-      expect(appMock.listen.mock.calls).toEqual([[3000, expect.any(Function)]]);
+      expect(appMock.listen.mock.calls).toEqual([[8080, expect.any(Function)]]);
       expect(serverMock.close.mock.calls).toEqual([[expect.any(Function)]]);
 
       expect(loggerMock.info.mock.calls).toEqual([
         ['[web] Server starting...'],
-        ['[web] Server started', { port: 3000 }],
+        ['[web] Server started', { port: 8080 }],
         ['[web] Server stopping...'],
         ['[web] Server stopped'],
       ]);
@@ -105,7 +105,7 @@ describe('web/AbstractWebServer', () => {
 
       expect(loggerMock.info.mock.calls).toEqual([
         ['[web] Server starting...'],
-        ['[web] Server started', { port: 3000 }],
+        ['[web] Server started', { port: 8080 }],
         ['[web] Server stopping...'],
         ['[web] Server stopped'],
       ]);
@@ -125,12 +125,12 @@ describe('web/AbstractWebServer', () => {
       const port1 = await webProcess.start();
       const port2 = await webProcess.start();
 
-      expect(port1).toBe(3000);
+      expect(port1).toBe(8080);
       expect(port2).toBe(-1);
 
       expect(loggerMock.info.mock.calls).toEqual([
         ['[web] Server starting...'],
-        ['[web] Server started', { port: 3000 }],
+        ['[web] Server started', { port: 8080 }],
       ]);
       expect(loggerMock.warn.mock.calls).toEqual([
         ['[web] Attempting to start the server when it is already running'],
