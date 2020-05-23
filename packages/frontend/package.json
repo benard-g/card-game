@@ -5,7 +5,9 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --watchAll=false",
+    "test": "yarn build && yarn test:lint && yarn test:jest",
+    "test:lint": "eslint --max-warnings=0 '{src,test,public}/**/*.{js,jsx,ts,tsx,json}'",
+    "test:jest": "react-scripts test --watchAll=false",
     "eject": "react-scripts eject"
   },
   "dependencies": {
@@ -20,11 +22,14 @@
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
+    "@typescript-eslint/eslint-plugin": "^3.0.0",
+    "@typescript-eslint/parser": "^3.0.0",
+    "eslint": "6.8.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.3",
+    "prettier": "^2.0.5",
     "react-scripts": "3.4.1",
     "typescript": "3.8.3"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
   },
   "browserslist": {
     "production": [
