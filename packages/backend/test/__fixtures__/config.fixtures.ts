@@ -2,7 +2,7 @@ import { Config } from '../../src/config/Config';
 
 const CONFIG: Config = {
   server: {
-    port: 3000,
+    port: 8080,
   },
   services: {
     mongo: {
