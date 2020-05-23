@@ -7,7 +7,7 @@
     "build": "react-scripts build",
     "test": "yarn build && yarn test:lint && yarn test:jest",
     "test:lint": "eslint --max-warnings=0 '{src,test,public}/**/*.{js,jsx,ts,tsx,json}'",
-    "test:jest": "react-scripts test --watchAll=false",
+    "test:jest": "react-scripts test --watchAll=false --coverage",
     "eject": "react-scripts eject"
   },
   "dependencies": {
