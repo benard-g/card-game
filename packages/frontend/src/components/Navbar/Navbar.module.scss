@@ -1,0 +1,33 @@
+.container {
+  background-color: #276fbf;
+  height: 50px;
+  padding: 0 10px;
+  position: sticky;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.subContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.logo {
+  height: 30px;
+  margin-right: 8px;
+}
+
+.title {
+  font-family: 'KurriIsland';
+  font-size: 1.3rem;
+  letter-spacing: 0.08rem;
+  margin-top: 5px;
+}
+
+.loginButton {
+  padding: 0.3rem 1.1rem !important;
+  background-color: #9dd863 !important;
+}

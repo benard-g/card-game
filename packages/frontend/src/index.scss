@@ -1,0 +1,33 @@
+@import './scss/reset';
+
+@font-face {
+  font-family: 'KurriIsland';
+  src: local('KurriIsland'),
+    url('./assets/fonts/KurriIsland.ttf') format('truetype');
+}
+
+body {
+  background-color: #292d3e;
+  color: #ffffff;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+}
+
+#root {
+  height: 100vh;
+  overflow-y: auto;
+}
+
+a:hover {
+  color: inherit;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+a:visited,
+a:link,
+a:active {
+  color: inherit;
+  text-decoration: none;
+}
