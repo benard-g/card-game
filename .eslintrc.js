@@ -28,5 +28,6 @@ module.exports = {
       { vars: 'all', args: 'all', argsIgnorePattern: '^_' },
     ],
     'no-return-await': 'error',
+    'react/prop-types': 'off',
   },
 };
