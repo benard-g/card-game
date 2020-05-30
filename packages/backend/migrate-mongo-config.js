@@ -12,7 +12,7 @@ const config = {
       useUnifiedTopology: true,
     },
   },
-  migrationsDir: 'db-migrations',
+  migrationsDir: 'migrations',
   changelogCollectionName: 'migrations',
   migrationFileExtension: '.js',
 };
