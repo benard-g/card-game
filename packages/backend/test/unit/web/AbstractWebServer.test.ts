@@ -18,7 +18,7 @@ describe('web/AbstractWebServer', () => {
       super(config, logger, app);
     }
 
-    public setupRoutes(app: Express.Application): void {
+    protected setupRoutes(app: Express.Application): void {
       app.get('/ok', (_req, res) => {
         res.status(200).send('OK');
       });
@@ -46,14 +46,14 @@ describe('web/AbstractWebServer', () => {
     const app = (appMock as unknown) as Express.Application;
 
     it('should create a working server', async () => {
-      const webProcess = new TestWebServer(
+      const webServer = new TestWebServer(
         configFixtures.config.server,
         logger,
         app,
       );
 
-      const port = await webProcess.start();
-      const closeStatus = await webProcess.stop();
+      const port = await webServer.start();
+      const closeStatus = await webServer.stop();
 
       expect(port).toBe(8080);
       expect(closeStatus).toBe(true);
@@ -72,13 +72,13 @@ describe('web/AbstractWebServer', () => {
     });
 
     it('should log a warning if trying to close before starting', async () => {
-      const webProcess = new TestWebServer(
+      const webServer = new TestWebServer(
         configFixtures.config.server,
         logger,
         app,
       );
 
-      const closeStatus = await webProcess.stop();
+      const closeStatus = await webServer.stop();
 
       expect(closeStatus).toBe(false);
 
@@ -90,15 +90,15 @@ describe('web/AbstractWebServer', () => {
     });
 
     it('should log a warning if trying to close twice', async () => {
-      const webProcess = new TestWebServer(
+      const webServer = new TestWebServer(
         configFixtures.config.server,
         logger,
         app,
       );
 
-      await webProcess.start();
-      const closeStatus1 = await webProcess.stop();
-      const closeStatus2 = await webProcess.stop();
+      await webServer.start();
+      const closeStatus1 = await webServer.stop();
+      const closeStatus2 = await webServer.stop();
 
       expect(closeStatus1).toBe(true);
       expect(closeStatus2).toBe(false);
@@ -116,14 +116,14 @@ describe('web/AbstractWebServer', () => {
     });
 
     it('should log a warning if trying to start twice', async () => {
-      const webProcess = new TestWebServer(
+      const webServer = new TestWebServer(
         configFixtures.config.server,
         logger,
         app,
       );
 
-      const port1 = await webProcess.start();
-      const port2 = await webProcess.start();
+      const port1 = await webServer.start();
+      const port2 = await webServer.start();
 
       expect(port1).toBe(8080);
       expect(port2).toBe(-1);
@@ -142,7 +142,12 @@ describe('web/AbstractWebServer', () => {
   describe('routing', () => {
     it('should correctly map routes', async () => {
       const app = Express();
-      new TestWebServer(configFixtures.config.server, logger, app);
+      const webServer = new TestWebServer(
+        configFixtures.config.server,
+        logger,
+        app,
+      );
+      webServer.setup();
 
       const res = await request(app).get('/ok');
 
@@ -150,7 +155,7 @@ describe('web/AbstractWebServer', () => {
 
       expect(loggerMock.info.mock.calls).toEqual([
         [
-          '[web][middleware][logger] New request',
+          '[web][middleware][logger] Request',
           {
             duration: expect.any(Number),
             req: {
@@ -170,7 +175,12 @@ describe('web/AbstractWebServer', () => {
 
     it('should create a default 404 route', async () => {
       const app = Express();
-      new TestWebServer(configFixtures.config.server, logger, app);
+      const webServer = new TestWebServer(
+        configFixtures.config.server,
+        logger,
+        app,
+      );
+      webServer.setup();
 
       const res = await request(app).get('/not-found');
 
@@ -179,7 +189,7 @@ describe('web/AbstractWebServer', () => {
 
       expect(loggerMock.info.mock.calls).toEqual([
         [
-          '[web][middleware][logger] New request',
+          '[web][middleware][logger] Request',
           {
             duration: expect.any(Number),
             req: {
@@ -199,7 +209,12 @@ describe('web/AbstractWebServer', () => {
 
     it('should create a default 500 route', async () => {
       const app = Express();
-      new TestWebServer(configFixtures.config.server, logger, app);
+      const webServer = new TestWebServer(
+        configFixtures.config.server,
+        logger,
+        app,
+      );
+      webServer.setup();
 
       const res = await request(app).get('/error');
 
@@ -208,7 +223,7 @@ describe('web/AbstractWebServer', () => {
 
       expect(loggerMock.info.mock.calls).toEqual([
         [
-          '[web][middleware][logger] New request',
+          '[web][middleware][logger] Request',
           {
             duration: expect.any(Number),
             req: {

@@ -1,17 +1,17 @@
 import { Router } from 'express';
 
-import { ServiceProvider } from '../../../services/ServiceProvider';
-import { Models } from '../../../models';
+import { Core } from '../../../core';
+import { Logger } from '../../../utils/Logger';
 
+import * as AuthRouter from './auth';
 import { heartbeat } from './heartbeat.controller';
 
-export function loadRoutes(
-  _services: ServiceProvider,
-  _models: Models,
-): Router {
+export function loadRoutes(core: Core, logger: Logger): Router {
   const router = Router();
 
   router.get('/', heartbeat);
+
+  router.use('/auth', AuthRouter.loadRoutes(core, logger));
 
   return router;
 }

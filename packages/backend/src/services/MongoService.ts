@@ -2,12 +2,15 @@ import Mongodb from 'mongodb';
 
 import { MongoConfig } from '../config/services/MongoConfig';
 
-import { IService } from './IService';
+import { ResourcefulService } from './Service';
 
-export class MongoService implements IService {
+export class MongoService extends ResourcefulService {
+  public static NAME = 'mongodb';
+
   private mongoClient: Mongodb.MongoClient | undefined;
 
   constructor(private readonly config: MongoConfig) {
+    super();
     this.mongoClient = undefined;
   }
 

@@ -2,7 +2,7 @@ import request from 'supertest';
 
 import { createWebProcess } from '../../../__utils__/createWebProcess';
 
-describe('web/api/hertbeat', () => {
+describe('web/api/heartbeat', () => {
   const [app, webProcess] = createWebProcess();
 
   beforeAll(async () => {

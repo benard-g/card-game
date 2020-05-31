@@ -15,9 +15,11 @@ export abstract class AbstractWebServer {
     private readonly config: ServerConfig,
     private readonly logger: Logger,
     private readonly app: Express.Application,
-  ) {
+  ) {}
+
+  public setup(): void {
     this.setupMiddleware();
-    this.setupRoutes(app);
+    this.setupRoutes(this.app, this.logger);
     this.setupErrorHandlers();
   }
 
@@ -57,7 +59,10 @@ export abstract class AbstractWebServer {
     });
   }
 
-  protected abstract setupRoutes(app: Express.Application): void;
+  protected abstract setupRoutes(
+    app: Express.Application,
+    logger: Logger,
+  ): void;
 
   private setupMiddleware(): void {
     this.app.use(Express.json());
