@@ -1,8 +1,7 @@
 import Express from 'express';
 
 import { ServerConfig } from '../config/ServerConfig';
-import { Models } from '../models';
-import { ServiceProvider } from '../services/ServiceProvider';
+import { Core } from '../core';
 import { Logger } from '../utils/Logger';
 
 import { AbstractWebServer } from './AbstractWebServer';
@@ -13,14 +12,13 @@ export class WebServer extends AbstractWebServer {
     config: ServerConfig,
     logger: Logger,
     app: Express.Application,
-    private readonly services: ServiceProvider,
-    private readonly models: Models,
+    private readonly core: Core,
   ) {
     super(config, logger, app);
   }
 
-  protected setupRoutes(app: Express.Application): void {
-    const routes = Controllers.loadRoutes(this.services, this.models);
+  protected setupRoutes(app: Express.Application, logger: Logger): void {
+    const routes = Controllers.loadRoutes(this.core, logger);
     app.use('/api', routes);
   }
 }
