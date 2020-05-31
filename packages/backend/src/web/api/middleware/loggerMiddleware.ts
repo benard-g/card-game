@@ -12,7 +12,7 @@ export function loggerMiddleware(logger: Logger) {
     onFinished(res, () => {
       const endTime = new Date();
 
-      logger.info(`${LOGGER_PREFIX} New request`, {
+      logger.info(`${LOGGER_PREFIX} Request`, {
         req: {
           method: req.method,
           path: req.originalUrl,
