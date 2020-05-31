@@ -5,6 +5,7 @@ import Express from 'express';
 import { Logger } from './utils/Logger';
 
 import * as Config from './config/Config';
+import { Core } from './core';
 import { Models } from './models';
 import { ServiceProvider } from './services/ServiceProvider';
 import { WebServer } from './web/WebServer';
@@ -23,7 +24,6 @@ function createWebProcess(
 ): WebProcess {
   const config = Config.load();
   const services = new ServiceProvider(config.services, logger);
-  const models = new Models(services.mongo);
   let webServer: WebServer | undefined;
 
   return {
@@ -33,7 +33,10 @@ function createWebProcess(
       }
 
       await services.start();
-      webServer = new WebServer(config.server, logger, app, services, models);
+      const models = new Models(services.mongo);
+      const core = new Core(services, models);
+      webServer = new WebServer(config.server, logger, app, core);
+      webServer.setup();
     },
     start: async (): Promise<void> => {
       if (!webServer) {
