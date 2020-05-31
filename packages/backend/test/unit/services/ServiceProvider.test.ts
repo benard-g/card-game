@@ -13,21 +13,23 @@ describe('services/ServiceProvider', () => {
     await serviceProvider.start();
 
     const mongo = serviceProvider.mongo;
+    const password = serviceProvider.password;
 
     await serviceProvider.stop();
 
     expect(mongo).not.toBeUndefined();
+    expect(password).not.toBeUndefined();
 
     expect(loggerMock.info.mock.calls).toEqual([
       // Start
       ['[services] Services starting...'],
-      ['[services] - starting mongodb...'],
-      ['[services] - started mongodb'],
+      ['[services] - starting "mongodb"...'],
+      ['[services] - started "mongodb"'],
       ['[services] Services started'],
       // Stop
       ['[services] Services stopping...'],
-      ['[services] - stopping mongodb...'],
-      ['[services] - stopped mongodb'],
+      ['[services] - stopping "mongodb"...'],
+      ['[services] - stopped "mongodb"'],
       ['[services] Services stopped'],
     ]);
     expect(loggerMock.warn.mock.calls).toEqual([]);

@@ -10,17 +10,22 @@
     "migrate:status": "migrate-mongo status",
     "test": "yarn build && yarn migrate && yarn test:lint && yarn test:jest",
     "test:lint": "eslint --max-warnings=0 '{src,test}/**/*.{js,ts}'",
-    "test:jest": "jest 'test/.*.test.ts' --coverage"
+    "test:jest": "jest 'test/.*.test.ts' --runInBand --coverage"
   },
   "dependencies": {
+    "@hapi/joi": "^17.1.1",
+    "bcrypt": "^4.0.1",
     "express": "^4.17.1",
+    "express-async-handler": "^1.1.4",
     "mongodb": "^3.5.7",
     "on-finished": "^2.3.0",
     "supertest": "^4.0.2",
     "winston": "^3.2.1"
   },
   "devDependencies": {
+    "@types/bcrypt": "^3.0.0",
     "@types/express": "^4.17.6",
+    "@types/hapi__joi": "^17.1.0",
     "@types/jest": "^24.0.0",
     "@types/mongodb": "^3.5.18",
     "@types/node": "^12.0.0",
