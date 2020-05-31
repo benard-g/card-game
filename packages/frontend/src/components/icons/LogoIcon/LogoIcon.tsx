@@ -1,19 +1,22 @@
+import { makeStyles } from '@material-ui/core';
 import React from 'react';
-import classnames from 'classnames';
 
-import Logo from '../../../assets/images/logo.svg';
+import { PropsWithStyle } from '../../utils/PropsWithStyle';
 
-import styles from './LogoIcon.module.scss';
+import Logo from './logo.svg';
 
-interface Props {
-  className?: string;
-}
+const useStyles = makeStyles({
+  img: {
+    height: '50px',
+  },
+});
+
+type Props = PropsWithStyle<typeof useStyles>;
 
 const LogoIcon: React.FC<Props> = (props) => {
-  const { className } = props;
-  const classNames = classnames(styles.LogoIcon, className || undefined);
+  const styles = useStyles(props);
 
-  return <img src={Logo} alt="Logo" className={classNames} />;
+  return <img src={Logo} alt="Logo" className={styles.img} />;
 };
 
 export default LogoIcon;

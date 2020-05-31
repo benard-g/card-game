@@ -1,19 +1,22 @@
+import { makeStyles } from '@material-ui/core';
 import React from 'react';
-import classnames from 'classnames';
 
-import Logo from '../../../assets/images/github.png';
+import { PropsWithStyle } from '../../utils/PropsWithStyle';
 
-import styles from './GithubIcon.module.scss';
+import Logo from './github.png';
 
-interface Props {
-  className?: string;
-}
+const useStyles = makeStyles({
+  img: {
+    height: '32px',
+  },
+});
+
+type Props = PropsWithStyle<typeof useStyles>;
 
 const LogoIcon: React.FC<Props> = (props) => {
-  const { className } = props;
-  const classNames = classnames(styles.GithubIcon, className || undefined);
+  const styles = useStyles(props);
 
-  return <img src={Logo} alt="Github" className={classNames} />;
+  return <img src={Logo} alt="Github" className={styles.img} />;
 };
 
 export default LogoIcon;

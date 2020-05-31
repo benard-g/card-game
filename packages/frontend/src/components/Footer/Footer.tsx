@@ -1,10 +1,31 @@
+import { makeStyles } from '@material-ui/core';
 import React from 'react';
 
 import GithubIcon from '../icons/GithubIcon';
 
-import styles from './Footer.module.scss';
+const useStyles = makeStyles({
+  Footer: {
+    fontSize: '0.9rem',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: '1rem 0',
+  },
+  githubLink: {
+    marginTop: '0.5rem',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  logo: {
+    height: '1rem',
+    marginRight: '0.3rem',
+  },
+});
 
 const Footer: React.FC = () => {
+  const styles = useStyles();
+
   return (
     <footer className={styles.Footer}>
       <p>Made by Guillaume Benard</p>
@@ -14,7 +35,8 @@ const Footer: React.FC = () => {
         rel="noopener noreferrer"
         className={styles.githubLink}
       >
-        <GithubIcon className={styles.logo} /> View the project on Github
+        <GithubIcon classes={{ img: styles.logo }} />
+        View the project on Github
       </a>
     </footer>
   );
