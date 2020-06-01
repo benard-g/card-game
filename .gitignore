@@ -112,3 +112,6 @@ build/
 
 # MISC
 .DS_Store
+
+# Test output
+packages/frontend/.translations_test
