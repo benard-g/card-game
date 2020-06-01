@@ -6,9 +6,12 @@ import 'typeface-roboto';
 
 import App from './app/App';
 import * as serviceWorker from './serviceWorker';
+import * as I18n from './i18nInit';
 
 import './assets/fonts/KurriIsland.ttf';
 import './index.scss';
+
+I18n.init();
 
 ReactDOM.render(
   <React.StrictMode>
