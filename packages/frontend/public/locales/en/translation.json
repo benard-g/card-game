@@ -1,0 +1,15 @@
+{
+  "app": {
+    "title": "Hello Shipwreck"
+  },
+  "components": {
+    "Footer": {
+      "madeBy": "Made by Guillaume Benard",
+      "viewOnGithub": "View the project on Github"
+    },
+    "Navbar": {
+      "loginButton": "Login",
+      "title": "Shipwreck"
+    }
+  }
+}

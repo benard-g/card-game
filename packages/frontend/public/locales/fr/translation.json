@@ -1,0 +1,15 @@
+{
+  "app": {
+    "title": "Bonjour Naufrage"
+  },
+  "components": {
+    "Footer": {
+      "madeBy": "Créé par Guillaume Benard",
+      "viewOnGithub": "Voir le projet sur Github"
+    },
+    "Navbar": {
+      "loginButton": "Connexion",
+      "title": "Naufrage"
+    }
+  }
+}
