@@ -1,6 +1,7 @@
 import { makeStyles } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import LogoIcon from '../icons/LogoIcon/LogoIcon';
 
@@ -38,19 +39,20 @@ const useStyles = makeStyles({
 
 const Navbar: React.FC = () => {
   const styles = useStyles();
+  const { t } = useTranslation();
 
   return (
     <div className={styles.root}>
       {/* Left part  */}
       <div className={styles.subRoot}>
         <LogoIcon classes={{ img: styles.logo }} />
-        <h1 className={styles.title}>Shipwreck</h1>
+        <h1 className={styles.title}>{t('components.Navbar.title')}</h1>
       </div>
 
       {/* Right part */}
       <div className={styles.subRoot}>
         <Button variant="contained" classes={{ contained: styles.loginButton }}>
-          Login
+          {t('components.Navbar.loginButton')}
         </Button>
       </div>
     </div>

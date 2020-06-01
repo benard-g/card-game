@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/core';
 import React from 'react';
 
-import { PropsWithStyle } from '../../utils/PropsWithStyle';
+import { PropsWithStyle } from '../../../utils/react/PropsWithStyle';
 
 import Logo from './github.png';
 

@@ -1,5 +1,6 @@
 import { makeStyles } from '@material-ui/core';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import GithubIcon from '../icons/GithubIcon';
 
@@ -25,10 +26,11 @@ const useStyles = makeStyles({
 
 const Footer: React.FC = () => {
   const styles = useStyles();
+  const { t } = useTranslation();
 
   return (
     <footer className={styles.Footer}>
-      <p>Made by Guillaume Benard</p>
+      <p>{t('components.Footer.madeBy')}</p>
       <a
         href="https://github.com/benard-g/card-game"
         target="_blank"
@@ -36,7 +38,7 @@ const Footer: React.FC = () => {
         className={styles.githubLink}
       >
         <GithubIcon classes={{ img: styles.logo }} />
-        View the project on Github
+        {t('components.Footer.viewOnGithub')}
       </a>
     </footer>
   );

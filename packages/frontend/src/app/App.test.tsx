@@ -4,7 +4,7 @@ import React from 'react';
 import App from './App';
 
 describe('app/App', () => {
-  it('should render without error', () => {
+  it('should render App without error', async () => {
     render(<App />);
   });
 });
