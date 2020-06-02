@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "build": "wsrun -t build",
-    "test": "wsrun -s test"
+    "test": "wsrun --parallel test"
   },
   "workspaces": [
     "packages/*"
