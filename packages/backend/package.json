@@ -40,7 +40,7 @@
     "migrate-mongo": "^7.2.1",
     "prettier": "^2.0.5",
     "ts-jest": "^24.0.0",
-    "tsc-watch": "^4.2.7",
+    "tsc-watch": "^4.2.8",
     "typescript": "3.9.3"
   }
 }
