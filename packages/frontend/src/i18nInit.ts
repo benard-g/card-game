@@ -21,8 +21,9 @@ export async function init(): Promise<void> {
         lookupQuerystring: 'lng',
         caches: ['localStorage'],
       },
+      whitelist: ['en', 'fr'],
       preload: ['en'],
-      debug: true,
+      debug: process.env.NODE_ENV !== 'production',
       fallbackLng: 'en',
     });
 }
