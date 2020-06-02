@@ -11,7 +11,7 @@ jobs:
       - name: Use Node 12.x
         uses: actions/setup-node@v1
         with:
-          node-version: 12.16.3
+          node-version: 12.17.0
       - name: Install dependencies
         run: yarn install
       - name: Start MongoDB
