@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react';
 import React from 'react';
 
-import Footer from '.';
+import Footer from './Footer';
 
 describe('components/Footer', () => {
   it('should render without error', () => {

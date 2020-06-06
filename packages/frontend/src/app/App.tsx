@@ -2,9 +2,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import React, { Suspense } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
-import Footer from '../components/Footer';
+import Footer from '../components/Footer/Footer';
 import LoadingScreen from '../components/LoadingScreen/LoadingScreen';
-import Navbar from '../components/Navbar';
+import Navbar from '../components/Navbar/NavBar';
 
 import Routes from './Routes';
 

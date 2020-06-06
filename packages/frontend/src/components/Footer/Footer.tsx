@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import GithubIcon from '../icons/GithubIcon';
+import GithubIcon from '../icons/GithubIcon/GithubIcon';
 
 const useStyles = makeStyles({
   Footer: {
