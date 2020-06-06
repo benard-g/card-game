@@ -1,5 +1,3 @@
-/* istanbul ignore file */
-
 import Express from 'express';
 
 import { Logger } from './utils/Logger';
