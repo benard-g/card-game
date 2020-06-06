@@ -1,7 +1,8 @@
-import { makeStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
 import LogoIcon from '../icons/LogoIcon/LogoIcon';
 
@@ -17,6 +18,7 @@ const useStyles = makeStyles({
     alignItems: 'center',
   },
   subRoot: {
+    color: 'black',
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
@@ -44,14 +46,19 @@ const Navbar: React.FC = () => {
   return (
     <div className={styles.root}>
       {/* Left part  */}
-      <div className={styles.subRoot}>
+      <Link to="/" className={styles.subRoot}>
         <LogoIcon classes={{ img: styles.logo }} />
         <h1 className={styles.title}>{t('components.Navbar.title')}</h1>
-      </div>
+      </Link>
 
       {/* Right part */}
       <div className={styles.subRoot}>
-        <Button variant="contained" classes={{ contained: styles.loginButton }}>
+        <Button
+          component={Link}
+          to="/login"
+          variant="contained"
+          classes={{ contained: styles.loginButton }}
+        >
           {t('components.Navbar.loginButton')}
         </Button>
       </div>
