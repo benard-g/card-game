@@ -1,10 +1,15 @@
 import { render } from '@testing-library/react';
 import React from 'react';
+import { MemoryRouter } from 'react-router-dom';
 
-import Navbar from '.';
+import Navbar from './NavBar';
 
 describe('components/Navbar', () => {
   it('should render without error', () => {
-    render(<Navbar />);
+    render(
+      <MemoryRouter>
+        <Navbar />
+      </MemoryRouter>,
+    );
   });
 });

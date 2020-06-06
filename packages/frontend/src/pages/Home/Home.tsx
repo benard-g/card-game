@@ -1,26 +1,25 @@
 import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
-
-import LoadingWheel from '../LoadingWheel';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles({
-  container: {
-    height: '100%',
-    width: '100%',
+  Home: {
+    flexGrow: 1,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
   },
 });
 
-const LoadingScreen: React.FC = () => {
+const Home: React.FC = () => {
   const styles = useStyles();
+  const { t } = useTranslation();
 
   return (
-    <div className={styles.container}>
-      <LoadingWheel size="4rem" color="#fb8c00" />
+    <div className={styles.Home}>
+      <p>{t('pages.Home.title')}</p>
     </div>
   );
 };
 
-export default LoadingScreen;
+export default Home;

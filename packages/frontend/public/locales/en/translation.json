@@ -1,7 +1,4 @@
 {
-  "app": {
-    "title": "Hello Shipwreck"
-  },
   "components": {
     "Footer": {
       "madeBy": "Made by Guillaume Benard",
@@ -10,6 +7,11 @@
     "Navbar": {
       "loginButton": "Login",
       "title": "Shipwreck"
+    }
+  },
+  "pages": {
+    "Home": {
+      "title": "Hello Shipwreck !"
     }
   }
 }
