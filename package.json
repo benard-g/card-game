@@ -1,0 +1,10 @@
+{
+  "name": "card-game",
+  "version": "0.1.0",
+  "author": "Guillaume Bénard <guillaume@benard.io>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {},
+  "workspaces": {},
+  "devDependencies": {}
+}
