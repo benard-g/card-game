@@ -4,7 +4,17 @@
   "author": "Guillaume Bénard <guillaume@benard.io>",
   "license": "MIT",
   "private": true,
-  "scripts": {},
-  "workspaces": {},
-  "devDependencies": {}
+  "scripts": {
+    "build": "wsrun -at build",
+    "build:clean": "wsrun -a build:clean",
+    "test": "wsrun -a test"
+  },
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ]
+  },
+  "devDependencies": {
+    "wsrun": "^5.2.4"
+  }
 }
