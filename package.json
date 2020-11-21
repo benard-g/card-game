@@ -14,6 +14,9 @@
       "packages/*"
     ]
   },
+  "engines": {
+    "node": "v14.15.1"
+  },
   "devDependencies": {
     "wsrun": "^5.2.4"
   }
