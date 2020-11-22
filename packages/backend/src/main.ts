@@ -1,5 +1,4 @@
 // istanbul ignore file
-// istanbul ignore file
 
 import 'reflect-metadata';
 import 'source-map-support/register';
