@@ -39,6 +39,8 @@ jobs:
         run: yarn install
       - name: Build all projects
         run: yarn build
+        env:
+          REACT_APP_API_URI: 'https://benard-card-game-api.herokuapp.com'
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@3.6.2
         with:
