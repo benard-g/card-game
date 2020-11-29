@@ -3,4 +3,5 @@ module.exports = {
     browser: true,
     jest: true,
   },
+  ignorePatterns: ['src/services/graphql/generated.tsx'],
 };

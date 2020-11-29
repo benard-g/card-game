@@ -1,0 +1,9 @@
+overwrite: true
+schema: "../../schema.graphql"
+documents: "src/**/*{.graphql,.tsx}"
+generates:
+  src/services/graphql/generated.tsx:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-apollo"

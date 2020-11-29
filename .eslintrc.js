@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 module.exports = {
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -28,4 +29,28 @@ module.exports = {
     'simple-import-sort/imports': 'error',
     'sort-imports': 'off',
   },
+  overrides: [
+    {
+      files: ['*.ts', '*.tsx', '*.js', '*.jsx'],
+      rules: {
+        'simple-import-sort/imports': [
+          'error',
+          {
+            groups: [
+              // Side effect imports.
+              ['^\\u0000'],
+              // Node.js built-ins.
+              [`^(${require('module').builtinModules.join('|')})(/|$)`],
+              // External packages ('react' related packages come first).
+              ['^react', '^@?\\w'],
+              // Parent imports. Put `..` last.
+              ['^\\.\\.(?!/?$)', '^\\.\\./?$'],
+              // Other relative imports. Put same-folder imports and `.` last.
+              ['^\\./(?=.*/)(?!/?$)', '^\\.(?!/?$)', '^\\./?$'],
+            ],
+          },
+        ],
+      },
+    },
+  ],
 };
