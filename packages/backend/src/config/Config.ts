@@ -1,6 +1,6 @@
 import { getFromEnv, getNumberFromEnv } from '../utils/envUtils';
 
-function getNodeEnv() {
+function getNodeEnv(): 'production' | 'development' | 'test' {
   const nodeEnv = getFromEnv('NODE_ENV', null);
 
   switch (nodeEnv) {
@@ -13,13 +13,7 @@ function getNodeEnv() {
   }
 }
 
-export interface Config {
-  NODE_ENV: ReturnType<typeof getNodeEnv>;
-  PORT: number;
-  GRAPHQL_SCHEMA_OUTPUT: string;
-}
-
-export function loadConfig(): Config {
+export function loadConfig() {
   return {
     NODE_ENV: getNodeEnv(),
     PORT: getNumberFromEnv('PORT', 8080),
@@ -27,5 +21,8 @@ export function loadConfig(): Config {
       'GRAPHQL_SCHEMA_OUTPUT',
       '../../schema.graphql',
     ),
+    SERVER_CORS_ALLOWED_ORIGIN: getFromEnv('SERVER_CORS_ALLOWED_ORIGIN', null),
   };
 }
+
+export type Config = ReturnType<typeof loadConfig>;

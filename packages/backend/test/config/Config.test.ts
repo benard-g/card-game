@@ -21,6 +21,7 @@ describe('config/Config', () => {
       NODE_ENV: 'development',
       PORT: 8080,
       GRAPHQL_SCHEMA_OUTPUT: '../../schema.graphql',
+      SERVER_CORS_ALLOWED_ORIGIN: null,
     });
   });
 

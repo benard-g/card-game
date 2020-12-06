@@ -1,6 +1,7 @@
 import Http from 'http';
 
 import { ApolloServer } from 'apollo-server-express';
+import Cors from 'cors';
 import Express from 'express';
 
 import * as GraphqlSchema from './graphql/schema';
@@ -9,6 +10,9 @@ import * as ApiRest from './api';
 interface InitOptions {
   devMode: boolean;
   emitSchemaFile?: string | false;
+  serverOptions?: {
+    allowedCorsOrigin?: string;
+  };
 }
 
 interface StartOptions {
@@ -33,16 +37,19 @@ export class Server {
   }
 
   public async init(options: InitOptions): Promise<void> {
-    const {} = options;
+    const { emitSchemaFile, serverOptions } = options;
 
     this.app = Express();
+
+    // Register middleware
+    this.app.use(Cors({ origin: serverOptions?.allowedCorsOrigin }));
 
     // Register REST resources
     this.app.use('/api', ApiRest.registerRoutes());
 
     // Register graphql resources
     const graphqlSchema = await GraphqlSchema.buildSchema({
-      emitSchemaFile: options.emitSchemaFile || false,
+      emitSchemaFile: emitSchemaFile || false,
     });
     const graphqlServer = new ApolloServer({
       schema: graphqlSchema,
