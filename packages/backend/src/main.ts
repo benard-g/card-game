@@ -19,6 +19,9 @@ async function main(): Promise<void> {
   await server.init({
     devMode: isDevMode,
     emitSchemaFile: isDevMode ? config.GRAPHQL_SCHEMA_OUTPUT : false,
+    serverOptions: {
+      allowedCorsOrigin: config.SERVER_CORS_ALLOWED_ORIGIN || undefined,
+    },
   });
   console.log('[Server] Server instance created');
 
