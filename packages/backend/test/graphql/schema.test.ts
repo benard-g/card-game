@@ -1,14 +1,13 @@
 import { readFile } from 'fs/promises';
 
-import { Server } from '../../src/graphql/Server';
+import { buildSchema } from '../../src/graphql/schema';
 
 describe('graphql/schema', () => {
   const ORIGINAL_SCHEMA_PATH = '../../schema.graphql';
-  const TEST_SCHEMA_PATH = '/tmp/card_game-test-schema.graphql';
+  const TEST_SCHEMA_PATH = '/tmp/card-game-test-schema.graphql';
 
-  it('Should provide an up-to-date schema', async () => {
-    await new Server().init({
-      devMode: true,
+  it('should provide an up-to-date schema', async () => {
+    await buildSchema({
       emitSchemaFile: TEST_SCHEMA_PATH,
     });
 
