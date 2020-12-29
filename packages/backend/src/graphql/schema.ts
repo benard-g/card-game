@@ -10,5 +10,6 @@ export async function buildSchema(options: Options) {
   return TypeGraphql.buildSchema({
     emitSchemaFile: options.emitSchemaFile,
     resolvers: [HelloResolver],
+    container: ({ context }) => context.serviceLocator,
   });
 }

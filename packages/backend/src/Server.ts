@@ -4,11 +4,19 @@ import { ApolloServer } from 'apollo-server-express';
 import Cors from 'cors';
 import Express from 'express';
 
+import { LOCAL_SERVICE_LOCATOR_KEY } from './constants/api';
+import { registerErrorHandler } from './graphql/plugins/registerErrorHandler';
 import * as GraphqlSchema from './graphql/schema';
+import { register404Handler } from './middleware/register404Handler';
+import { register500Handler } from './middleware/register500Handler';
+import { registerLoggerMiddleware } from './middleware/registerLoggerMiddleware';
+import { registerRequestIdMiddleware } from './middleware/registerRequestIdMiddleware';
+import { registerServiceLocatorMiddleware } from './middleware/registerServiceLocatorMiddleware';
+import { ServiceLocator } from './utils/ServiceLocator';
 import * as ApiRest from './api';
 
 interface InitOptions {
-  devMode: boolean;
+  isDevMode: boolean;
   emitSchemaFile?: string | false;
   serverOptions?: {
     allowedCorsOrigin?: string;
@@ -23,7 +31,7 @@ export class Server {
   private app: Express.Application | undefined;
   private server: Http.Server | undefined;
 
-  constructor() {
+  constructor(private readonly serviceLocator: ServiceLocator) {
     this.app = undefined;
     this.server = undefined;
   }
@@ -37,12 +45,16 @@ export class Server {
   }
 
   public async init(options: InitOptions): Promise<void> {
-    const { emitSchemaFile, serverOptions } = options;
+    const { isDevMode, emitSchemaFile, serverOptions } = options;
 
     this.app = Express();
 
     // Register middleware
     this.app.use(Cors({ origin: serverOptions?.allowedCorsOrigin }));
+
+    this.app.use(registerRequestIdMiddleware());
+    this.app.use(registerServiceLocatorMiddleware(this.serviceLocator));
+    this.app.use(registerLoggerMiddleware());
 
     // Register REST resources
     this.app.use('/api', ApiRest.registerRoutes());
@@ -53,11 +65,18 @@ export class Server {
     });
     const graphqlServer = new ApolloServer({
       schema: graphqlSchema,
-      introspection: options.devMode,
-      playground: options.devMode,
-      tracing: options.devMode,
+      introspection: isDevMode,
+      playground: isDevMode,
+      tracing: isDevMode,
+      plugins: [registerErrorHandler()],
+      context: ({ res }) => ({
+        serviceLocator: res.locals[LOCAL_SERVICE_LOCATOR_KEY],
+      }),
     });
     graphqlServer.applyMiddleware({ app: this.app, path: '/api/graphql' });
+
+    this.app.use(register404Handler());
+    this.app.use(register500Handler());
   }
 
   public async start(options: StartOptions): Promise<void> {

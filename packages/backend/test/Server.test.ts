@@ -22,25 +22,32 @@ jest.mock('apollo-server-express', () => ({
 
 import * as GraphqlSchema from '../src/graphql/schema';
 import { Server } from '../src/Server';
+import { globalServiceLocator } from '../src/utils/ServiceLocator';
 
 describe('graphql/Server', () => {
   const buildSchemaSpy = jest.spyOn(GraphqlSchema, 'buildSchema');
   const expressApp = expect.any(Function);
 
+  const createServer = () => {
+    return new Server(globalServiceLocator.child());
+  };
+
   describe('initialization', () => {
     it('should correctly create a server in "dev" mode', async () => {
-      const server = new Server();
+      const server = createServer();
 
-      await server.init({ devMode: true });
+      await server.init({ isDevMode: true });
 
       expect(buildSchemaSpy).toHaveBeenCalledWith({
         emitSchemaFile: false,
       });
       expect(apolloServerSpy).toHaveBeenCalledWith({
-        schema: expect.any(Object),
         introspection: true,
         playground: true,
         tracing: true,
+        context: expect.any(Function),
+        schema: expect.any(Object),
+        plugins: expect.any(Array),
       });
       expect(apolloServerMock.applyMiddleware).toHaveBeenCalledWith({
         app: expressApp,
@@ -57,18 +64,20 @@ describe('graphql/Server', () => {
     });
 
     it('should correctly create a server in "non-dev" mode', async () => {
-      const server = new Server();
+      const server = createServer();
 
-      await server.init({ devMode: false });
+      await server.init({ isDevMode: false });
 
       expect(buildSchemaSpy).toHaveBeenCalledWith({
         emitSchemaFile: false,
       });
       expect(apolloServerSpy).toHaveBeenCalledWith({
-        schema: expect.any(Object),
         introspection: false,
         playground: false,
         tracing: false,
+        context: expect.any(Function),
+        schema: expect.any(Object),
+        plugins: expect.any(Array),
       });
       expect(apolloServerMock.applyMiddleware).toHaveBeenCalledWith({
         app: expressApp,
@@ -85,7 +94,7 @@ describe('graphql/Server', () => {
     });
 
     it('should throw an Error if started without initialization', async () => {
-      const server = new Server();
+      const server = createServer();
 
       const promise = server.start({ port: 4242 });
 
@@ -95,9 +104,9 @@ describe('graphql/Server', () => {
     });
 
     it('should throw an Error if initialized twice', async () => {
-      const server = new Server();
+      const server = createServer();
 
-      await server.init({ devMode: false });
+      await server.init({ isDevMode: false });
       await server.start({ port: 4242 });
       const promise = server.start({ port: 4242 });
 
@@ -109,9 +118,9 @@ describe('graphql/Server', () => {
 
   describe('#getApp', () => {
     it('should return the app instance', async () => {
-      const server = new Server();
+      const server = createServer();
 
-      await server.init({ devMode: false });
+      await server.init({ isDevMode: false });
 
       const app = server.getApp();
 
@@ -119,7 +128,7 @@ describe('graphql/Server', () => {
     });
 
     it('should throw an Error if not initialized', () => {
-      const server = new Server();
+      const server = createServer();
 
       expect(() => server.getApp()).toThrow(
         new Error('Server not initialized'),
