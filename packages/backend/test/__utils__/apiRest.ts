@@ -1,13 +1,20 @@
 import SuperTest from 'supertest';
 
 import { Server } from '../../src/Server';
+import { Logger } from '../../src/utils/Logger';
+import { globalServiceLocator } from '../../src/utils/ServiceLocator';
+
+import { loggerMock } from './loggerMock';
 
 export type RequestClient = ReturnType<typeof SuperTest>;
 
 export async function createRequestClient(): Promise<RequestClient> {
-  const server = new Server();
+  const serviceLocator = globalServiceLocator.child();
+  serviceLocator.set(Logger, loggerMock);
 
-  await server.init({ devMode: false });
+  const server = new Server(serviceLocator);
+
+  await server.init({ isDevMode: false });
 
   return SuperTest(server.getApp());
 }
