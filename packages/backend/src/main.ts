@@ -3,7 +3,11 @@
 import 'reflect-metadata';
 import 'source-map-support/register';
 
+import { Connection } from 'typeorm';
+
 import { loadConfig } from './config/Config';
+import { createDatabaseConnection } from './model/database';
+import { Jwt } from './utils/Jwt';
 import { Logger } from './utils/Logger';
 import { globalServiceLocator } from './utils/ServiceLocator';
 import { Server } from './Server';
@@ -22,9 +26,21 @@ globalServiceLocator.set(Logger, logger);
 async function main(): Promise<void> {
   const isDevMode = config.NODE_ENV === 'development';
 
-  const server = new Server(globalServiceLocator);
+  // Init DB connection
+  logger.info('[server] Connecting to database...');
+  const conn = await createDatabaseConnection({
+    databaseUri: config.DATABASE_URI,
+  });
+  globalServiceLocator.set(Connection, conn);
+  logger.info('[server] Connected to database');
 
+  // Init Jwt
+  const jwt = new Jwt(config.JWT_SECRET_KEY);
+  globalServiceLocator.set(Jwt, jwt);
+
+  // Init server
   logger.info('[server] Creating new Server instance...');
+  const server = new Server(globalServiceLocator);
   await server.init({
     isDevMode,
     emitSchemaFile: isDevMode ? config.GRAPHQL_SCHEMA_OUTPUT : false,

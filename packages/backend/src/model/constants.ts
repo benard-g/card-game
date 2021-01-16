@@ -1,0 +1,1 @@
+export const DB_DUPLICATE_KEY_ERROR = '23505';

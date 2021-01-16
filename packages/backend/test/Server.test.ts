@@ -20,7 +20,7 @@ jest.mock('apollo-server-express', () => ({
   ApolloServer: apolloServerSpy,
 }));
 
-import * as GraphqlSchema from '../src/graphql/schema';
+import * as GraphqlSchema from '../src/api/graphql/schema';
 import { Server } from '../src/Server';
 import { globalServiceLocator } from '../src/utils/ServiceLocator';
 
