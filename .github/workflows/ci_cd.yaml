@@ -5,6 +5,20 @@ jobs:
   CI:
     name: Automated tests
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:12.5-alpine
+        env:
+          POSTGRES_DB: postgres
+          POSTGRES_PASSWORD: password
+          POSTGRES_USER: postgres
+        ports:
+          - 2345:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
       - name: Clone the repository
         uses: actions/checkout@v2
