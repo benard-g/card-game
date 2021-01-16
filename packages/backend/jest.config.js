@@ -7,6 +7,6 @@ module.exports = {
   // Test options
   clearMocks: true,
   // Coverage
-  collectCoverageFrom: ['src/**/*.ts'],
+  collectCoverageFrom: ['src/**/*.ts', '!src/model/migrations/*.ts'],
   coverageDirectory: 'coverage',
 };

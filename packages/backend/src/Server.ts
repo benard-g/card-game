@@ -1,19 +1,22 @@
 import Http from 'http';
 
 import { ApolloServer } from 'apollo-server-express';
+import CookieParser from 'cookie-parser';
 import Cors from 'cors';
 import Express from 'express';
 
-import { LOCAL_SERVICE_LOCATOR_KEY } from './constants/api';
-import { registerErrorHandler } from './graphql/plugins/registerErrorHandler';
-import * as GraphqlSchema from './graphql/schema';
-import { register404Handler } from './middleware/register404Handler';
-import { register500Handler } from './middleware/register500Handler';
-import { registerLoggerMiddleware } from './middleware/registerLoggerMiddleware';
-import { registerRequestIdMiddleware } from './middleware/registerRequestIdMiddleware';
-import { registerServiceLocatorMiddleware } from './middleware/registerServiceLocatorMiddleware';
+import { Context } from './api/graphql/Context';
+import { registerErrorHandler } from './api/graphql/plugins/registerErrorHandler';
+import * as GraphqlSchema from './api/graphql/schema';
+import { register404Handler } from './api/middleware/register404Handler';
+import { register500Handler } from './api/middleware/register500Handler';
+import { registerAuthGuardMiddleware } from './api/middleware/registerAuthGuardMiddleware';
+import { registerLoggerMiddleware } from './api/middleware/registerLoggerMiddleware';
+import { registerRequestIdMiddleware } from './api/middleware/registerRequestIdMiddleware';
+import { registerServiceLocatorMiddleware } from './api/middleware/registerServiceLocatorMiddleware';
+import * as ApiRest from './api/routes';
+import { getRequestingUser, getServiceLocator } from './api/utils';
 import { ServiceLocator } from './utils/ServiceLocator';
-import * as ApiRest from './api';
 
 interface InitOptions {
   isDevMode: boolean;
@@ -51,6 +54,7 @@ export class Server {
 
     // Register middleware
     this.app.use(Cors({ origin: serverOptions?.allowedCorsOrigin }));
+    this.app.use(CookieParser());
 
     this.app.use(registerRequestIdMiddleware());
     this.app.use(registerServiceLocatorMiddleware(this.serviceLocator));
@@ -69,10 +73,15 @@ export class Server {
       playground: isDevMode,
       tracing: isDevMode,
       plugins: [registerErrorHandler()],
-      context: ({ res }) => ({
-        serviceLocator: res.locals[LOCAL_SERVICE_LOCATOR_KEY],
+      context: ({ req, res }): Context => ({
+        req,
+        res,
+        serviceLocator: getServiceLocator(res),
+        user: getRequestingUser(res),
       }),
     });
+
+    this.app.use('/api/graphql', registerAuthGuardMiddleware());
     graphqlServer.applyMiddleware({ app: this.app, path: '/api/graphql' });
 
     this.app.use(register404Handler());

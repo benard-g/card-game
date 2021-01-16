@@ -3,11 +3,24 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
-type Hello {
-  id: ID!
-  message: String!
+type LeaveLobbyResponse {
+  code: String
+}
+
+type Lobby {
+  code: String!
+}
+
+type Mutation {
+  createLobby: Lobby!
+  leaveLobby: LeaveLobbyResponse!
 }
 
 type Query {
-  hello: Hello!
+  viewer: Viewer!
+}
+
+type Viewer {
+  id: ID!
+  lobby: Lobby
 }
