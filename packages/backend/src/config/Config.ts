@@ -29,7 +29,7 @@ function getCorsAllowedOrigin(nodeEnv: NodeEnv): string {
 }
 
 function getDatabaseUri(nodeEnv: NodeEnv): string {
-  const varName = 'DATABASE_URI';
+  const varName = 'DATABASE_URL';
 
   const DEV_DB = 'postgres://postgres:password@localhost:5432/postgres';
   const TEST_DB = 'postgres://postgres:password@localhost:2345/postgres';
