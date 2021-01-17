@@ -11,15 +11,31 @@ export type Scalars = {
   Float: number;
 };
 
-export type Hello = {
-  __typename?: 'Hello';
-  id: Scalars['ID'];
-  message: Scalars['String'];
+export type LeaveLobbyResponse = {
+  __typename?: 'LeaveLobbyResponse';
+  code?: Maybe<Scalars['String']>;
+};
+
+export type Lobby = {
+  __typename?: 'Lobby';
+  code: Scalars['ID'];
+};
+
+export type Mutation = {
+  __typename?: 'Mutation';
+  createLobby: Lobby;
+  leaveLobby: LeaveLobbyResponse;
 };
 
 export type Query = {
   __typename?: 'Query';
-  hello: Hello;
+  viewer: Viewer;
+};
+
+export type Viewer = {
+  __typename?: 'Viewer';
+  id: Scalars['ID'];
+  lobby?: Maybe<Lobby>;
 };
 
 export type AppQueryVariables = Exact<{ [key: string]: never; }>;
@@ -27,18 +43,17 @@ export type AppQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type AppQuery = (
   { __typename?: 'Query' }
-  & { hello: (
-    { __typename?: 'Hello' }
-    & Pick<Hello, 'id' | 'message'>
+  & { viewer: (
+    { __typename?: 'Viewer' }
+    & Pick<Viewer, 'id'>
   ) }
 );
 
 
 export const AppDocument = gql`
     query App {
-  hello {
+  viewer {
     id
-    message
   }
 }
     `;

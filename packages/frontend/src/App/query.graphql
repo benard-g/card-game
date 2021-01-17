@@ -1,6 +1,5 @@
 query App {
-  hello {
+  viewer {
     id
-    message
   }
 }

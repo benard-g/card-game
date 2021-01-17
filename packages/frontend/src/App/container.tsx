@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
 
+import { ApiAuthProvider } from '../hooks/ApiAuthentication';
 import { ApplicationThemeProvider } from '../hooks/ApplicationTheme';
 import GraphqlClient from '../services/graphql/GraphqlClient';
 
@@ -11,7 +12,9 @@ const App: FC = () => {
     <HelmetProvider>
       <GraphqlClient>
         <ApplicationThemeProvider defaultTheme="classic">
-          <AppComponent />
+          <ApiAuthProvider>
+            <AppComponent />
+          </ApiAuthProvider>
         </ApplicationThemeProvider>
       </GraphqlClient>
     </HelmetProvider>
