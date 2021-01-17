@@ -72,8 +72,8 @@ describe('config/Config', () => {
       );
     });
 
-    it('should use the value from "DATABASE_URI"', () => {
-      process.env = { DATABASE_URI: 'database_uri_from_env' };
+    it('should use the value from "DATABASE_URL"', () => {
+      process.env = { DATABASE_URL: 'database_uri_from_env' };
 
       const databaseUri = __TEST__.getDatabaseUri('production');
 
@@ -87,7 +87,7 @@ describe('config/Config', () => {
         __TEST__.getDatabaseUri('production');
       }).toThrow(
         new Error(
-          'EnvironmentVariableError: Missing environment variable "DATABASE_URI"',
+          'EnvironmentVariableError: Missing environment variable "DATABASE_URL"',
         ),
       );
     });
