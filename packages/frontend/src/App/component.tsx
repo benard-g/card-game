@@ -1,23 +1,56 @@
-import React, { FC, ReactElement } from 'react';
+import React, { FC, useEffect } from 'react';
 
-import { useAppQuery } from '../services/graphql/generated';
+import { useApiAuth } from '../hooks/ApiAuthentication/hook';
+import { useAppLazyQuery } from '../services/graphql/generated';
 
 import { Root } from './styles';
 
-const App: FC = () => {
-  const { data, loading, error } = useAppQuery();
+const LoadingPage: FC = () => (
+  <Root>
+    <p>Loading...</p>
+  </Root>
+);
 
-  let pageContent: ReactElement | null = null;
+const ErrorPage: FC = () => (
+  <Root>
+    <p>An error occurred during authentication</p>
+  </Root>
+);
+
+const App: FC = () => {
+  const {
+    isAuthenticated,
+    loading: apiAuthLoading,
+    error: apiAuthError,
+  } = useApiAuth();
+  const [
+    executeAppQuery,
+    { loading: appQueryLoading, data, error: appQueryError },
+  ] = useAppLazyQuery();
+
+  const loading = apiAuthLoading || appQueryLoading;
+  const error = apiAuthError || appQueryError;
+
+  useEffect(() => {
+    if (isAuthenticated && !data && !appQueryLoading) {
+      executeAppQuery();
+    }
+  }, [isAuthenticated, data, appQueryLoading, executeAppQuery]);
+
   if (loading) {
-    pageContent = <p>Loading...</p>;
-  } else if (error) {
-    pageContent = <p>An error occurred</p>;
-  } else if (data) {
-    const { hello } = data;
-    pageContent = <p>{hello.message}</p>;
+    return <LoadingPage />;
+  } else if (error || !data) {
+    return <ErrorPage />;
   }
 
-  return <Root>{pageContent}</Root>;
+  const { viewer } = data;
+
+  return (
+    <Root>
+      <p>Hello there !</p>
+      <p>Your id is: {viewer.id}</p>
+    </Root>
+  );
 };
 
 export default App;
