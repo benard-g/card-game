@@ -22,5 +22,5 @@ export function getRequestingUser(res: Response): User {
 }
 
 export function setCookie(res: Response, key: string, value: string): void {
-  res.cookie(key, value, { sameSite: 'none' });
+  res.cookie(key, value, { sameSite: 'none', secure: true });
 }
