@@ -20,3 +20,7 @@ export function getRequestId(res: Response): string {
 export function getRequestingUser(res: Response): User {
   return res.locals[LOCAL_REQUESTING_USER_KEY];
 }
+
+export function setCookie(res: Response, key: string, value: string): void {
+  res.cookie(key, value, { sameSite: 'none' });
+}
