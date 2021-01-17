@@ -7,6 +7,7 @@ import { Logger } from '../../../utils/Logger';
 import { Service } from '../../../utils/ServiceLocator';
 import { COOKIE_API_TOKEN } from '../../constants';
 import { TokenPayload } from '../../types/TokenPayload';
+import { setCookie } from '../../utils';
 import { Context } from '../Context';
 import { Lobby } from '../entities/Lobby';
 import { ErrorCode } from '../ErrorCode';
@@ -50,7 +51,7 @@ export class LobbyResolver {
           lobbyId: lobby.id,
         },
       });
-      res.cookie(COOKIE_API_TOKEN, token);
+      setCookie(res, COOKIE_API_TOKEN, token);
 
       return lobby;
     } catch (err) {
@@ -83,7 +84,7 @@ export class LobbyResolver {
     const token = await this.jwt.createToken<TokenPayload>({
       user: { ...user, lobbyId: undefined },
     });
-    res.cookie(COOKIE_API_TOKEN, token);
+    setCookie(res, COOKIE_API_TOKEN, token);
 
     return { code: leftLobbyCode };
   }

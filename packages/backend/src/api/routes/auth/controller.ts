@@ -5,7 +5,7 @@ import { Jwt } from '../../../utils/Jwt';
 import { Logger } from '../../../utils/Logger';
 import { COOKIE_API_TOKEN } from '../../constants';
 import { TokenPayload } from '../../types/TokenPayload';
-import { getServiceLocator } from '../../utils';
+import { getServiceLocator, setCookie } from '../../utils';
 
 export class AuthenticationController {
   public authenticateUser = async (req: Request, res: Response) => {
@@ -38,7 +38,8 @@ export class AuthenticationController {
     const newToken = await jwt.createToken<TokenPayload>({
       user,
     });
+    setCookie(res, COOKIE_API_TOKEN, newToken);
 
-    res.status(200).cookie(COOKIE_API_TOKEN, newToken).send('User created');
+    res.status(200).send('User created');
   };
 }
