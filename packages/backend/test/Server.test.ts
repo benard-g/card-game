@@ -36,7 +36,10 @@ describe('graphql/Server', () => {
     it('should correctly create a server in "dev" mode', async () => {
       const server = createServer();
 
-      await server.init({ isDevMode: true });
+      await server.init({
+        isDevMode: true,
+        serverOptions: { allowedCorsOrigin: 'https://allowed-origin.net' },
+      });
 
       expect(buildSchemaSpy).toHaveBeenCalledWith({
         emitSchemaFile: false,
@@ -52,6 +55,11 @@ describe('graphql/Server', () => {
       expect(apolloServerMock.applyMiddleware).toHaveBeenCalledWith({
         app: expressApp,
         path: '/api/graphql',
+        cors: {
+          credentials: true,
+          origin: 'https://allowed-origin.net',
+          optionsSuccessStatus: 200,
+        },
       });
 
       await server.start({ port: 4242 });
@@ -66,7 +74,10 @@ describe('graphql/Server', () => {
     it('should correctly create a server in "non-dev" mode', async () => {
       const server = createServer();
 
-      await server.init({ isDevMode: false });
+      await server.init({
+        isDevMode: false,
+        serverOptions: { allowedCorsOrigin: 'https://allowed-origin.net' },
+      });
 
       expect(buildSchemaSpy).toHaveBeenCalledWith({
         emitSchemaFile: false,
@@ -82,6 +93,11 @@ describe('graphql/Server', () => {
       expect(apolloServerMock.applyMiddleware).toHaveBeenCalledWith({
         app: expressApp,
         path: '/api/graphql',
+        cors: {
+          credentials: true,
+          origin: 'https://allowed-origin.net',
+          optionsSuccessStatus: 200,
+        },
       });
 
       await server.start({ port: 4242 });

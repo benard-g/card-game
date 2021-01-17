@@ -8,7 +8,7 @@ type LeaveLobbyResponse {
 }
 
 type Lobby {
-  code: String!
+  code: ID!
 }
 
 type Mutation {
