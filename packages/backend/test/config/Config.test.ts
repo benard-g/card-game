@@ -25,7 +25,7 @@ describe('config/Config', () => {
       DATABASE_URI: 'postgres://postgres:password@localhost:2345/postgres',
       JWT_SECRET_KEY: 'secret',
       GRAPHQL_SCHEMA_OUTPUT: '../../schema.graphql',
-      SERVER_CORS_ALLOWED_ORIGIN: null,
+      SERVER_CORS_ALLOWED_ORIGIN: 'http://localhost:3000',
     });
   });
 
@@ -114,6 +114,34 @@ describe('config/Config', () => {
       }).toThrow(
         new Error(
           'EnvironmentVariableError: Missing environment variable "JWT_SECRET_KEY"',
+        ),
+      );
+    });
+  });
+
+  describe('#getCorsAllowedOrigin', () => {
+    it('should use the default value', () => {
+      const jwtSecret = __TEST__.getCorsAllowedOrigin('development');
+
+      expect(jwtSecret).toEqual('http://localhost:3000');
+    });
+
+    it('should use the value from "SERVER_CORS_ALLOWED_ORIGIN"', () => {
+      process.env = {
+        SERVER_CORS_ALLOWED_ORIGIN: 'https://allowed-origin.net',
+      };
+
+      const jwtSecret = __TEST__.getCorsAllowedOrigin('production');
+
+      expect(jwtSecret).toEqual('https://allowed-origin.net');
+    });
+
+    it('should throw if undefined in "production" mode', () => {
+      expect(() => {
+        __TEST__.getCorsAllowedOrigin('production');
+      }).toThrow(
+        new Error(
+          'EnvironmentVariableError: Missing environment variable "SERVER_CORS_ALLOWED_ORIGIN"',
         ),
       );
     });

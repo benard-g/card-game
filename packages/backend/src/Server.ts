@@ -53,7 +53,12 @@ export class Server {
     this.app = Express();
 
     // Register middleware
-    this.app.use(Cors({ origin: serverOptions?.allowedCorsOrigin }));
+    this.app.use(
+      Cors({
+        credentials: true,
+        origin: serverOptions?.allowedCorsOrigin,
+      }),
+    );
     this.app.use(CookieParser());
 
     this.app.use(registerRequestIdMiddleware());
@@ -82,7 +87,15 @@ export class Server {
     });
 
     this.app.use('/api/graphql', registerAuthGuardMiddleware());
-    graphqlServer.applyMiddleware({ app: this.app, path: '/api/graphql' });
+    graphqlServer.applyMiddleware({
+      app: this.app,
+      path: '/api/graphql',
+      cors: {
+        origin: serverOptions?.allowedCorsOrigin,
+        credentials: true,
+        optionsSuccessStatus: 200,
+      },
+    });
 
     this.app.use(register404Handler());
     this.app.use(register500Handler());

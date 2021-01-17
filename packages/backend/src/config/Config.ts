@@ -15,6 +15,19 @@ function getNodeEnv(): 'production' | 'development' | 'test' {
 
 type NodeEnv = ReturnType<typeof getNodeEnv>;
 
+function getCorsAllowedOrigin(nodeEnv: NodeEnv): string {
+  const varName = 'SERVER_CORS_ALLOWED_ORIGIN';
+
+  const DEFAULT_ORIGIN = 'http://localhost:3000';
+
+  switch (nodeEnv) {
+    case 'production':
+      return getFromEnv(varName);
+    default:
+      return getFromEnv(varName, DEFAULT_ORIGIN);
+  }
+}
+
 function getDatabaseUri(nodeEnv: NodeEnv): string {
   const varName = 'DATABASE_URI';
 
@@ -56,13 +69,14 @@ export function loadConfig() {
       'GRAPHQL_SCHEMA_OUTPUT',
       '../../schema.graphql',
     ),
-    SERVER_CORS_ALLOWED_ORIGIN: getFromEnv('SERVER_CORS_ALLOWED_ORIGIN', null),
+    SERVER_CORS_ALLOWED_ORIGIN: getCorsAllowedOrigin(nodeEnv),
   };
 }
 
 export type Config = ReturnType<typeof loadConfig>;
 
 export const __TEST__ = {
+  getCorsAllowedOrigin,
   getDatabaseUri,
   getJwtSecret,
   getNodeEnv,

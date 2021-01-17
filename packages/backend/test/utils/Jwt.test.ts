@@ -23,7 +23,6 @@ describe('utils/Jwt', () => {
       const decodedPayload = await jwt.decodeToken<Payload>(token);
       expect(decodedPayload).toEqual({
         value: 42,
-        iat: expect.any(Number),
       });
     });
 
@@ -90,6 +89,16 @@ describe('utils/Jwt', () => {
       await expect(promise).rejects.toThrowError(
         'An error occurred while decoding the token',
       );
+    });
+
+    it('should throw if Jwt.verify returns a token from a previous version', async () => {
+      verifySpy.mockImplementation((_token, _secret, cb) => {
+        cb(null, { version: 0 });
+      });
+
+      const promise = jwt.decodeToken('some_token');
+
+      await expect(promise).rejects.toThrowError('Token version mismatch');
     });
   });
 });
