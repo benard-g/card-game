@@ -2,12 +2,12 @@ import { ApolloError } from 'apollo-server-express';
 import { Ctx, Field, Mutation, ObjectType, Resolver } from 'type-graphql';
 
 import { LobbyCore, UserAlreadyInLobbyError } from '../../../core/LobbyCore';
+import { CookieSetter } from '../../../utils/CookieSetter';
 import { Jwt } from '../../../utils/Jwt';
 import { Logger } from '../../../utils/Logger';
 import { Service } from '../../../utils/ServiceLocator';
 import { COOKIE_API_TOKEN } from '../../constants';
 import { TokenPayload } from '../../types/TokenPayload';
-import { setCookie } from '../../utils';
 import { Context } from '../Context';
 import { Lobby } from '../entities/Lobby';
 import { ErrorCode } from '../ErrorCode';
@@ -22,6 +22,7 @@ class LeaveLobbyResponse {
 @Resolver()
 export class LobbyResolver {
   constructor(
+    private readonly cookieSetter: CookieSetter,
     private readonly jwt: Jwt,
     private readonly logger: Logger,
     private readonly lobbyCore: LobbyCore,
@@ -51,7 +52,7 @@ export class LobbyResolver {
           lobbyId: lobby.id,
         },
       });
-      setCookie(res, COOKIE_API_TOKEN, token);
+      this.cookieSetter.setCookie(res, COOKIE_API_TOKEN, token);
 
       return lobby;
     } catch (err) {
@@ -84,7 +85,7 @@ export class LobbyResolver {
     const token = await this.jwt.createToken<TokenPayload>({
       user: { ...user, lobbyId: undefined },
     });
-    setCookie(res, COOKIE_API_TOKEN, token);
+    this.cookieSetter.setCookie(res, COOKIE_API_TOKEN, token);
 
     return { code: leftLobbyCode };
   }
