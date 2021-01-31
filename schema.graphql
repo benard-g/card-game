@@ -3,17 +3,13 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
-type LeaveLobbyResponse {
-  code: String
-}
-
 type Lobby {
-  code: ID!
+  id: ID!
 }
 
 type Mutation {
-  createLobby: Lobby!
-  leaveLobby: LeaveLobbyResponse!
+  createLobby: Viewer!
+  leaveLobby: Viewer!
 }
 
 type Query {

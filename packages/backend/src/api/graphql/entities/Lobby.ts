@@ -3,5 +3,5 @@ import { Field, ID, ObjectType } from 'type-graphql';
 @ObjectType()
 export class Lobby {
   @Field(() => ID)
-  public code!: string;
+  public id!: string;
 }

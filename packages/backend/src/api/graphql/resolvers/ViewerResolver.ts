@@ -45,6 +45,9 @@ export class ViewerResolver {
       return undefined;
     }
 
-    return lobby;
+    return {
+      ...lobby,
+      id: lobby.code,
+    };
   }
 }
