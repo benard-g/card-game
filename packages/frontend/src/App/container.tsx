@@ -3,6 +3,7 @@ import { HelmetProvider } from 'react-helmet-async';
 
 import { ApiAuthProvider } from '../hooks/ApiAuthentication';
 import { ApplicationThemeProvider } from '../hooks/ApplicationTheme';
+import { I18nextProvider } from '../hooks/i18next';
 import GraphqlClient from '../services/graphql/GraphqlClient';
 
 import AppComponent from './component';
@@ -12,9 +13,11 @@ const App: FC = () => {
     <HelmetProvider>
       <GraphqlClient>
         <ApplicationThemeProvider defaultTheme="classic">
-          <ApiAuthProvider>
-            <AppComponent />
-          </ApiAuthProvider>
+          <I18nextProvider languages={['en', 'fr']} fallbackLanguage="en">
+            <ApiAuthProvider>
+              <AppComponent />
+            </ApiAuthProvider>
+          </I18nextProvider>
         </ApplicationThemeProvider>
       </GraphqlClient>
     </HelmetProvider>

@@ -112,3 +112,6 @@ build/
 
 # MISC
 .DS_Store
+
+# Front-end translation
+translation_old.json
