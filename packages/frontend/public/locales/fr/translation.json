@@ -1,0 +1,12 @@
+{
+  "pages": {
+    "Home": {
+      "title": "Accueil"
+    },
+    "Lobby": {
+      "CreateLobby": {
+        "title": "Créer un Lobby"
+      }
+    }
+  }
+}

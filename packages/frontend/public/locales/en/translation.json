@@ -1,0 +1,12 @@
+{
+  "pages": {
+    "Home": {
+      "title": "Home"
+    },
+    "Lobby": {
+      "CreateLobby": {
+        "title": "Create Lobby"
+      }
+    }
+  }
+}

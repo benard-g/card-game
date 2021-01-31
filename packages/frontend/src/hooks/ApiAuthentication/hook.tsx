@@ -1,7 +1,6 @@
 import React, {
   createContext,
   FC,
-  useCallback,
   useContext,
   useEffect,
   useState,
@@ -12,42 +11,32 @@ import { config } from '../../config';
 //
 // Context
 //
-interface ApiAuthContext {
-  isAuthenticated: boolean;
+interface Context {
   loading: boolean;
   error?: Error;
-  setDoAuth: (state: boolean) => void;
 }
 
-const API_AUTH_CONTEXT = createContext<ApiAuthContext | undefined>(undefined);
+const API_AUTH_CONTEXT = createContext<Context | undefined>(undefined);
 
 //
 // Provider
 //
-interface ApiAuthProviderProps {
-  lazy?: boolean;
-}
-
 async function authenticate() {
   const authUri = `${config.API_URI}/api/auth/authenticate`;
   return fetch(authUri, { method: 'POST', credentials: 'include' });
 }
 
-export const ApiAuthProvider: FC<ApiAuthProviderProps> = (props) => {
-  const { lazy = false, children } = props;
+export const ApiAuthProvider: FC = (props) => {
+  const { children } = props;
 
-  const [loading, setLoading] = useState(false);
-  const [doAuth, setDoAuth] = useState(!lazy);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | undefined>(undefined);
 
   useEffect(() => {
-    if (isAuthenticated || loading || !doAuth) {
+    if (isAuthenticated) {
       return;
     }
-
-    setDoAuth(false);
-    setLoading(true);
 
     authenticate()
       .then((response) => {
@@ -63,12 +52,10 @@ export const ApiAuthProvider: FC<ApiAuthProviderProps> = (props) => {
       .finally(() => {
         setLoading(false);
       });
-  }, [doAuth, isAuthenticated, loading]);
+  }, [isAuthenticated, loading]);
 
   return (
-    <API_AUTH_CONTEXT.Provider
-      value={{ isAuthenticated, loading, error, setDoAuth }}
-    >
+    <API_AUTH_CONTEXT.Provider value={{ loading, error }}>
       {children}
     </API_AUTH_CONTEXT.Provider>
   );
@@ -77,25 +64,21 @@ export const ApiAuthProvider: FC<ApiAuthProviderProps> = (props) => {
 //
 // Hook
 //
-interface UseApiAuthResponse {
-  isAuthenticated?: boolean;
+interface HookResponse {
   loading: boolean;
   error?: Error;
-  authenticate: () => void;
 }
 
-export function useApiAuth(): UseApiAuthResponse {
+export function useApiAuth(): HookResponse {
   const context = useContext(API_AUTH_CONTEXT);
   if (!context) {
     throw new Error('Missing wrapping ApiAuthProvider');
   }
 
-  const { isAuthenticated, loading, error, setDoAuth } = context;
+  const { loading, error } = context;
 
   return {
-    isAuthenticated,
     loading,
     error,
-    authenticate: useCallback(() => setDoAuth(true), [setDoAuth]),
   };
 }
