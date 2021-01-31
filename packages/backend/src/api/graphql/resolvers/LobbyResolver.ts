@@ -1,3 +1,4 @@
+import { ErrorCode } from '@packages/lib-shared';
 import { ApolloError } from 'apollo-server-express';
 import { Ctx, Mutation, Resolver } from 'type-graphql';
 
@@ -10,7 +11,6 @@ import { COOKIE_API_TOKEN } from '../../constants';
 import { TokenPayload } from '../../types/TokenPayload';
 import { Context } from '../Context';
 import { Viewer } from '../entities/Viewer';
-import { ErrorCode } from '../ErrorCode';
 
 @Service()
 @Resolver()
