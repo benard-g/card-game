@@ -50,7 +50,7 @@ jobs:
       - name: Install dependencies
         run: yarn install
       - name: Build frontend project
-        run: yarn wsrun -p @packages/frontend -c build
+        run: yarn wsrun -p @packages/frontend -r build
         env:
           REACT_APP_API_URI: 'https://benard-card-game-api.herokuapp.com'
       - name: Deploy to GitHub Pages
