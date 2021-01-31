@@ -1,0 +1,8 @@
+query HomePage {
+  viewer {
+    id
+    lobby {
+      id
+    }
+  }
+}

@@ -1,0 +1,17 @@
+query ViewLobbyPage {
+  viewer {
+    id
+    lobby {
+      id
+    }
+  }
+}
+
+mutation ViewLobbyPage_LeaveLobby {
+  leaveLobby {
+    id
+    lobby {
+      id
+    }
+  }
+}

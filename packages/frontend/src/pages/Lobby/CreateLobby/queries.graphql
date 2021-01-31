@@ -1,0 +1,17 @@
+query CreateLobbyPage {
+  viewer {
+    id
+    lobby {
+      id
+    }
+  }
+}
+
+mutation CreateLobbyPage_CreateLobby {
+  createLobby {
+    id
+    lobby {
+      id
+    }
+  }
+}
