@@ -15,9 +15,10 @@
     "test:jest": "jest 'test/.*.test.ts' --runInBand --coverage"
   },
   "engines": {
-    "node": "v14.15.1"
+    "node": "v14.15.4"
   },
   "dependencies": {
+    "@packages/lib-shared": "*",
     "apollo-server-express": "^2.19.0",
     "class-validator": "^0.12.2",
     "cookie-parser": "^1.4.5",

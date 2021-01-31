@@ -1,13 +1,7 @@
 import React, { FC } from 'react';
 import { GraphQLError } from 'graphql';
 
-function mapErrorCode(error: GraphQLError): string | undefined {
-  switch (error.extensions?.code) {
-    // TODO import enum from backend
-    default:
-      return undefined;
-  }
-}
+import { mapErrorCode } from './utils/mapErrorCode';
 
 interface Props {
   error?: GraphQLError | Error;
