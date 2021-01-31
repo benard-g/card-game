@@ -1,34 +1,29 @@
 import { ApolloError } from 'apollo-server-express';
-import { Ctx, Field, Mutation, ObjectType, Resolver } from 'type-graphql';
+import { Ctx, Mutation, Resolver } from 'type-graphql';
 
 import { LobbyCore, UserAlreadyInLobbyError } from '../../../core/LobbyCore';
+import { CookieSetter } from '../../../utils/CookieSetter';
 import { Jwt } from '../../../utils/Jwt';
 import { Logger } from '../../../utils/Logger';
 import { Service } from '../../../utils/ServiceLocator';
 import { COOKIE_API_TOKEN } from '../../constants';
 import { TokenPayload } from '../../types/TokenPayload';
-import { setCookie } from '../../utils';
 import { Context } from '../Context';
-import { Lobby } from '../entities/Lobby';
+import { Viewer } from '../entities/Viewer';
 import { ErrorCode } from '../ErrorCode';
-
-@ObjectType()
-class LeaveLobbyResponse {
-  @Field({ nullable: true })
-  code?: string;
-}
 
 @Service()
 @Resolver()
 export class LobbyResolver {
   constructor(
+    private readonly cookieSetter: CookieSetter,
     private readonly jwt: Jwt,
     private readonly logger: Logger,
     private readonly lobbyCore: LobbyCore,
   ) {}
 
-  @Mutation(() => Lobby)
-  async createLobby(@Ctx() context: Context): Promise<Lobby> {
+  @Mutation(() => Viewer)
+  async createLobby(@Ctx() context: Context): Promise<Viewer> {
     const { res, user } = context;
 
     this.logger.info('[graphql][LobbyResolver] #createLobby');
@@ -51,9 +46,10 @@ export class LobbyResolver {
           lobbyId: lobby.id,
         },
       });
-      setCookie(res, COOKIE_API_TOKEN, token);
+      this.cookieSetter.setCookie(res, COOKIE_API_TOKEN, token);
+      context.user.lobbyId = lobby.id;
 
-      return lobby;
+      return { id: user.id };
     } catch (err) {
       if (err instanceof UserAlreadyInLobbyError) {
         const { id, code } = err.lobby;
@@ -70,8 +66,8 @@ export class LobbyResolver {
     }
   }
 
-  @Mutation(() => LeaveLobbyResponse)
-  async leaveLobby(@Ctx() context: Context): Promise<LeaveLobbyResponse> {
+  @Mutation(() => Viewer)
+  async leaveLobby(@Ctx() context: Context): Promise<Viewer> {
     const { res, user } = context;
 
     this.logger.info('[graphql][LobbyResolver] #leaveLobby');
@@ -84,8 +80,9 @@ export class LobbyResolver {
     const token = await this.jwt.createToken<TokenPayload>({
       user: { ...user, lobbyId: undefined },
     });
-    setCookie(res, COOKIE_API_TOKEN, token);
+    this.cookieSetter.setCookie(res, COOKIE_API_TOKEN, token);
+    context.user.lobbyId = undefined;
 
-    return { code: leftLobbyCode };
+    return { id: user.id };
   }
 }

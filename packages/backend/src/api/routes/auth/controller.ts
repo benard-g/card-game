@@ -1,17 +1,19 @@
 import { Request, Response } from 'express';
 
 import { UserCore } from '../../../core/UserCore';
+import { CookieSetter } from '../../../utils/CookieSetter';
 import { Jwt } from '../../../utils/Jwt';
 import { Logger } from '../../../utils/Logger';
 import { COOKIE_API_TOKEN } from '../../constants';
 import { TokenPayload } from '../../types/TokenPayload';
-import { getServiceLocator, setCookie } from '../../utils';
+import { getServiceLocator } from '../../utils';
 
 export class AuthenticationController {
   public authenticateUser = async (req: Request, res: Response) => {
     const serviceLocator = getServiceLocator(res);
     const logger = serviceLocator.get(Logger);
     const jwt = serviceLocator.get(Jwt);
+    const cookieSetter = serviceLocator.get(CookieSetter);
 
     logger.info('[api][AuthenticationController] #authenticateUser');
 
@@ -38,8 +40,12 @@ export class AuthenticationController {
     const newToken = await jwt.createToken<TokenPayload>({
       user,
     });
-    setCookie(res, COOKIE_API_TOKEN, newToken);
+    cookieSetter.setCookie(res, COOKIE_API_TOKEN, newToken);
 
-    res.status(200).send('User created');
+    logger.info(
+      '[api][AuthenticationController] #authenticateUser: New authentication',
+      { uid: user.id },
+    );
+    res.status(200).send('User authenticated');
   };
 }

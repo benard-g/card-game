@@ -29,17 +29,18 @@
     ]
   },
   "dependencies": {
-    "@apollo/client": "^3.2.7",
+    "@apollo/client": "^3.3.7",
     "graphql": "^15.4.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-helmet-async": "^1.0.7",
+    "react-router-dom": "^5.2.0",
     "reset-css": "^5.0.1",
-    "styled-components": "^5.2.1",
-    "web-vitals": "^0.2.4"
+    "styled-components": "^5.2.1"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^1.19.2",
+    "@graphql-codegen/named-operations-object": "^1.17.9",
     "@graphql-codegen/typescript": "^1.17.11",
     "@graphql-codegen/typescript-operations": "^1.17.10",
     "@graphql-codegen/typescript-react-apollo": "^2.1.1",
@@ -50,6 +51,7 @@
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.53",
     "@types/react-dom": "^16.9.8",
+    "@types/react-router-dom": "^5.1.7",
     "@types/styled-components": "^5.1.4",
     "@typescript-eslint/eslint-plugin": "^4.8.1",
     "@typescript-eslint/parser": "^4.8.1",
