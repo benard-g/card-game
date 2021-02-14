@@ -1,5 +1,9 @@
 name: CI_CD
-on: [push]
+on:
+  push:
+    branches:
+      - 'master'
+  pull_request:
 
 jobs:
   CI:
@@ -20,24 +24,18 @@ jobs:
           --health-timeout 5s
           --health-retries 5
     steps:
-      - name: Clone the repository
-        uses: actions/checkout@v2
-      - name: Use Node v14.x
-        uses: actions/setup-node@v1
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
         with:
           node-version: 14.15.4
-      - name: Install dependencies
-        run: yarn install
-      - name: Build all projects
-        run: yarn build
-      - name: Run automated tests
-        run: yarn test
-      - name: Report coverage
-        uses: codecov/codecov-action@v1
+      - run: yarn install
+      - run: yarn build
+      - run: yarn test
+      - uses: codecov/codecov-action@v1
         with:
           fail_ci_if_error: false
 
-  CD-FRONTEND:
+  DEPLOYMENT-FRONTEND:
     name: Deployment - Frontend
     runs-on: ubuntu-latest
     needs: CI
@@ -47,16 +45,13 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 14.15.4
-      - name: Install dependencies
-        run: yarn install
-      - name: Build frontend project
-        run: yarn wsrun -p @packages/frontend -r build
+      - run: yarn install
+      - run: yarn wsrun -p @packages/frontend -r build
         env:
           REACT_APP_API_URI: 'https://benard-card-game-api.herokuapp.com'
-      - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@3.6.2
+      - uses: JamesIves/github-pages-deploy-action@3.6.2
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: deployment-frontend
+          BRANCH: live-frontend
           FOLDER: packages/frontend/build
           CLEAN: true
