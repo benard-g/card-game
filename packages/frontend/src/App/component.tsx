@@ -16,7 +16,9 @@ const App: FC = () => {
       </Root>
     );
   }
+
   if (error) {
+    console.error(error);
     return (
       <Root>
         <p>An error occurred while loading the app.</p>
