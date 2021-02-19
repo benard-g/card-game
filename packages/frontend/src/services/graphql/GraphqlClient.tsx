@@ -1,5 +1,5 @@
-import React, { FC } from 'react';
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
+import React, { FC } from 'react';
 
 import { config } from '../../config';
 

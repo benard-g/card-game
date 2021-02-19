@@ -1,5 +1,5 @@
-import React, { FC } from 'react';
 import { GraphQLError } from 'graphql';
+import React, { FC } from 'react';
 
 import { mapErrorCode } from './utils/mapErrorCode';
 

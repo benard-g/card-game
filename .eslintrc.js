@@ -42,7 +42,7 @@ module.exports = {
               // Node.js built-ins.
               [`^(${require('module').builtinModules.join('|')})(/|$)`],
               // External packages ('react' related packages come first).
-              ['^react', '^@?\\w'],
+              ['^@?\\w'],
               // Parent imports. Put `..` last.
               ['^\\.\\.(?!/?$)', '^\\.\\./?$'],
               // Other relative imports. Put same-folder imports and `.` last.
