@@ -8,7 +8,7 @@ import {
 } from '../../../services/graphql/generated';
 
 interface Props {
-  lobby: Lobby;
+  lobby: Pick<Lobby, 'id'>;
 }
 
 const ViewLobby: FC<Props> = (props) => {
