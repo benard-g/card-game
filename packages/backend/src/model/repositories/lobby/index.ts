@@ -1,0 +1,1 @@
+export { LobbyRepository } from './repository';
