@@ -11,15 +11,32 @@ export type Scalars = {
   Float: number;
 };
 
+export type JoinLobbyInput = {
+  id: Scalars['String'];
+};
+
 export type Lobby = {
   __typename?: 'Lobby';
   id: Scalars['ID'];
+  members: Array<LobbyMember>;
+};
+
+export type LobbyMember = {
+  __typename?: 'LobbyMember';
+  role: Scalars['String'];
+  userId: Scalars['ID'];
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
   createLobby: Viewer;
+  joinLobby: Viewer;
   leaveLobby: Viewer;
+};
+
+
+export type MutationJoinLobbyArgs = {
+  input: JoinLobbyInput;
 };
 
 export type Query = {

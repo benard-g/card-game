@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-import { UserCore } from '../../../core/UserCore';
+import { UserCore } from '../../../core/lib/user';
 import { CookieSetter } from '../../../utils/CookieSetter';
 import { Jwt } from '../../../utils/Jwt';
 import { Logger } from '../../../utils/Logger';
