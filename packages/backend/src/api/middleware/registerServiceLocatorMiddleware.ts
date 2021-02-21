@@ -7,6 +7,7 @@ export const registerServiceLocatorMiddleware = (
   initialServiceLocator: ServiceLocator,
 ): RequestHandler => (_req, res, next) => {
   const scopedServiceLocator = initialServiceLocator.child();
+  scopedServiceLocator.set(ServiceLocator, scopedServiceLocator);
 
   res.locals[LOCAL_SERVICE_LOCATOR_KEY] = scopedServiceLocator;
 

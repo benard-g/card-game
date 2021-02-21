@@ -1,0 +1,1 @@
+export { LobbyResolver } from './resolver';
