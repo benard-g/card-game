@@ -3,8 +3,13 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+input CreateLobbyInput {
+  userName: String!
+}
+
 input JoinLobbyInput {
-  id: String!
+  lobbyId: String!
+  userName: String!
 }
 
 type Lobby {
@@ -13,12 +18,13 @@ type Lobby {
 }
 
 type LobbyMember {
+  id: ID!
+  name: String!
   role: String!
-  userId: ID!
 }
 
 type Mutation {
-  createLobby: Viewer!
+  createLobby(input: CreateLobbyInput!): Viewer!
   joinLobby(input: JoinLobbyInput!): Viewer!
   leaveLobby: Viewer!
 }

@@ -25,12 +25,13 @@ interface CreateNewLobby {
   lobbyCreationEvent: LobbyEvent;
 }
 
-export function createEvent(creator: User): CreateNewLobby {
+export function createEvent(creator: User, name: string): CreateNewLobby {
   if (creator.lobbyId) {
     throw new UserAlreadyInLobbyError(creator.lobbyId);
   }
 
   const lobbyMember = formatLobbyMember(creator, {
+    name,
     role: LobbyMemberRole.ADMIN,
   });
   const lobby: Lobby = {
@@ -51,7 +52,7 @@ export function createEvent(creator: User): CreateNewLobby {
       name: EVENT_NAME,
       payload: {
         code: lobby.code,
-        user: lobby.members[0],
+        user: lobbyMember,
       },
     },
   };

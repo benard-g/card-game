@@ -1,4 +1,4 @@
-import { PluginDefinition } from 'apollo-server-core';
+import { ApolloError, PluginDefinition } from 'apollo-server-core';
 import { GraphQLError } from 'graphql';
 
 import { Logger } from '../../../utils/Logger';
@@ -14,7 +14,7 @@ export function registerErrorHandler(): PluginDefinition {
         for (const error of errors) {
           // istanbul ignore next
           const err = error.originalError || error;
-          if (err instanceof GraphQLError) {
+          if (err instanceof GraphQLError || err instanceof ApolloError) {
             logger.info('[graphql] Responding with error', { err });
           } else {
             logger.error('[graphql] Unexpected error', { err });

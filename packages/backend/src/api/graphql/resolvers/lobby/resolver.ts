@@ -5,7 +5,7 @@ import { Context } from '../../Context';
 import { LobbyType } from '../../entities/LobbyType';
 import { ViewerType } from '../../entities/ViewerType';
 
-import { createLobby } from './mutations/createLobby';
+import { createLobby, CreateLobbyInput } from './mutations/createLobby';
 import { joinLobby, JoinLobbyInput } from './mutations/joinLobby';
 import { leaveLobby } from './mutations/leaveLobby';
 
@@ -15,8 +15,11 @@ export class LobbyResolver {
   constructor(private readonly serviceLocator: ServiceLocator) {}
 
   @Mutation(() => ViewerType)
-  public async createLobby(@Ctx() context: Context): Promise<ViewerType> {
-    return createLobby(this.serviceLocator, context);
+  public async createLobby(
+    @Ctx() context: Context,
+    @Arg('input') input: CreateLobbyInput,
+  ): Promise<ViewerType> {
+    return createLobby(this.serviceLocator, context, input);
   }
 
   @Mutation(() => ViewerType)

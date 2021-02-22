@@ -2,15 +2,17 @@ import { LobbyMember, LobbyMemberRole } from '../../../types/Lobby';
 import { User } from '../../../types/User';
 
 interface Options {
+  name: string;
   role: LobbyMemberRole;
 }
 
 export function formatLobbyMember(user: User, options: Options): LobbyMember {
   const { id } = user;
-  const { role } = options;
+  const { name, role } = options;
 
   return {
-    userId: id,
+    id,
+    name,
     role,
   };
 }

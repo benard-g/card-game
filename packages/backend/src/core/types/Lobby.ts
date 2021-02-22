@@ -4,7 +4,8 @@ export enum LobbyMemberRole {
 }
 
 export interface LobbyMember {
-  userId: string;
+  id: string;
+  name: string;
   role: LobbyMemberRole;
 }
 
