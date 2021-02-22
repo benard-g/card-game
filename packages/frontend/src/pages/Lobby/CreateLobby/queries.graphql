@@ -8,7 +8,7 @@ query CreateLobbyPage {
 }
 
 mutation CreateLobbyPage_CreateLobby {
-  createLobby {
+  createLobby(input: { userName: "Bob" }) {
     id
     lobby {
       id

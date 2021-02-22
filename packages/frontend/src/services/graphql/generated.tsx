@@ -11,8 +11,13 @@ export type Scalars = {
   Float: number;
 };
 
+export type CreateLobbyInput = {
+  userName: Scalars['String'];
+};
+
 export type JoinLobbyInput = {
-  id: Scalars['String'];
+  lobbyId: Scalars['String'];
+  userName: Scalars['String'];
 };
 
 export type Lobby = {
@@ -23,8 +28,9 @@ export type Lobby = {
 
 export type LobbyMember = {
   __typename?: 'LobbyMember';
+  id: Scalars['ID'];
+  name: Scalars['String'];
   role: Scalars['String'];
-  userId: Scalars['ID'];
 };
 
 export type Mutation = {
@@ -32,6 +38,11 @@ export type Mutation = {
   createLobby: Viewer;
   joinLobby: Viewer;
   leaveLobby: Viewer;
+};
+
+
+export type MutationCreateLobbyArgs = {
+  input: CreateLobbyInput;
 };
 
 
@@ -198,7 +209,7 @@ export type CreateLobbyPageLazyQueryHookResult = ReturnType<typeof useCreateLobb
 export type CreateLobbyPageQueryResult = Apollo.QueryResult<CreateLobbyPageQuery, CreateLobbyPageQueryVariables>;
 export const CreateLobbyPage_CreateLobbyDocument = gql`
     mutation CreateLobbyPage_CreateLobby {
-  createLobby {
+  createLobby(input: {userName: "Bob"}) {
     id
     lobby {
       id
