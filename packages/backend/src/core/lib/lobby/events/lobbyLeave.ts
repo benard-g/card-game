@@ -22,7 +22,7 @@ interface LeaveLobby {
 }
 
 export function createEvent(lobby: Lobby, user: User): LeaveLobby {
-  const userIdx = lobby.members.findIndex((m) => m.userId === user.id);
+  const userIdx = lobby.members.findIndex((m) => m.id === user.id);
   let newAdminIdx: number | undefined = undefined;
 
   if (
@@ -34,7 +34,7 @@ export function createEvent(lobby: Lobby, user: User): LeaveLobby {
   }
 
   const newAdmin = newAdminIdx
-    ? { id: lobby.members[newAdminIdx].userId }
+    ? { id: lobby.members[newAdminIdx].id }
     : undefined;
   const updatedLobby = incrementLobbyVersion(lobby);
   lobby.members.splice(userIdx, 1);

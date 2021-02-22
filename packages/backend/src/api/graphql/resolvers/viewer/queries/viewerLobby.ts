@@ -23,7 +23,8 @@ export async function viewerLobby(
   return {
     id: lobby.code,
     members: lobby.members.map((member) => ({
-      userId: member.userId,
+      id: member.id,
+      name: member.name,
       role: member.role,
     })),
   };

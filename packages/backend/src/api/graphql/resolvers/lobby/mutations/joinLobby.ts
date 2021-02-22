@@ -13,7 +13,10 @@ import { updateLobbyInContext } from '../utils/updateLobbyContext';
 @InputType()
 export class JoinLobbyInput {
   @Field()
-  id!: string;
+  lobbyId!: string;
+
+  @Field()
+  userName!: string;
 }
 
 export async function joinLobby(
@@ -24,7 +27,7 @@ export async function joinLobby(
   const logger = serviceLocator.get(Logger);
   const lobbyCore = serviceLocator.get(LobbyCore);
   const { user } = context;
-  const { id: lobbyCode } = input;
+  const { lobbyId: lobbyCode, userName } = input;
 
   logger.info('[graphql][LobbyResolver] #joinLobby');
 
@@ -37,7 +40,7 @@ export async function joinLobby(
   }
 
   try {
-    const { joiningUser } = await lobbyCore.joinLobby(lobby, user);
+    const { joiningUser } = await lobbyCore.joinLobby(lobby, user, userName);
 
     logger.info('[graphql][LobbyResolver] #joinLobby: Lobby joined', {
       lobbyCode,

@@ -11,12 +11,12 @@ import * as LobbyEventLeave from './events/lobbyLeave';
 export class LobbyCore {
   constructor(private readonly lobbyRepository: LobbyRepository) {}
 
-  public async createLobby(user: User) {
+  public async createLobby(user: User, userName: string) {
     const {
       creator,
       lobby,
       lobbyCreationEvent,
-    } = LobbyEventCreation.createEvent(user);
+    } = LobbyEventCreation.createEvent(user, userName);
     await this.lobbyRepository.createLobby(lobby, lobbyCreationEvent);
     return { creator, lobby };
   }
@@ -43,12 +43,12 @@ export class LobbyCore {
     return lobbyEntity.cache;
   }
 
-  public async joinLobby(lobby: Lobby, user: User) {
+  public async joinLobby(lobby: Lobby, user: User, userName: string) {
     const {
       joiningUser,
       lobby: updatedLobby,
       lobbyJoinEvent,
-    } = LobbyEventJoin.createEvent(lobby, user);
+    } = LobbyEventJoin.createEvent(lobby, user, userName);
     await this.lobbyRepository.saveLobbyEvent(lobby, lobbyJoinEvent);
     return { joiningUser, lobby: updatedLobby };
   }
