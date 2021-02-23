@@ -8,7 +8,7 @@ import { Logger } from '../../../../../utils/Logger';
 import { ServiceLocator } from '../../../../../utils/ServiceLocator';
 import { Context } from '../../../Context';
 import { ViewerType } from '../../../entities/ViewerType';
-import { updateLobbyInContext } from '../utils/updateLobbyContext';
+import { updateLobbyInContext } from '../../../utils/updateLobbyContext';
 
 @InputType()
 export class CreateLobbyInput {
