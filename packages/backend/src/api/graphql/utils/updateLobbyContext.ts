@@ -1,9 +1,9 @@
-import { CookieSetter } from '../../../../../utils/CookieSetter';
-import { Jwt } from '../../../../../utils/Jwt';
-import { ServiceLocator } from '../../../../../utils/ServiceLocator';
-import { COOKIE_API_TOKEN } from '../../../../constants';
-import { TokenPayload } from '../../../../types/TokenPayload';
-import { Context } from '../../../Context';
+import { CookieSetter } from '../../../utils/CookieSetter';
+import { Jwt } from '../../../utils/Jwt';
+import { ServiceLocator } from '../../../utils/ServiceLocator';
+import { COOKIE_API_TOKEN } from '../../constants';
+import { TokenPayload } from '../../types/TokenPayload';
+import { Context } from '../Context';
 
 export async function updateLobbyInContext(
   serviceLocator: ServiceLocator,

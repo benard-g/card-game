@@ -3,7 +3,7 @@ import { Logger } from '../../../../../utils/Logger';
 import { ServiceLocator } from '../../../../../utils/ServiceLocator';
 import { Context } from '../../../Context';
 import { ViewerType } from '../../../entities/ViewerType';
-import { updateLobbyInContext } from '../utils/updateLobbyContext';
+import { updateLobbyInContext } from '../../../utils/updateLobbyContext';
 
 export async function leaveLobby(
   serviceLocator: ServiceLocator,
