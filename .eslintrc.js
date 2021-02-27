@@ -41,8 +41,8 @@ module.exports = {
               ['^\\u0000'],
               // Node.js built-ins.
               [`^(${require('module').builtinModules.join('|')})(/|$)`],
-              // External packages ('react' related packages come first).
-              ['^react', '^@?\\w'],
+              // External packages.
+              ['^@?\\w'],
               // Parent imports. Put `..` last.
               ['^\\.\\.(?!/?$)', '^\\.\\./?$'],
               // Other relative imports. Put same-folder imports and `.` last.

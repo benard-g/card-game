@@ -3,16 +3,39 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+input CreateLobbyInput {
+  userName: String!
+}
+
+input JoinLobbyInput {
+  lobbyId: String!
+  userName: String!
+}
+
 type Lobby {
   id: ID!
+  members: [LobbyMember!]!
+}
+
+type LobbyMember {
+  id: ID!
+  name: String!
+  role: String!
+}
+
+type LobbyPreview {
+  id: ID!
+  nbMembers: Int!
 }
 
 type Mutation {
-  createLobby: Viewer!
+  createLobby(input: CreateLobbyInput!): Viewer!
+  joinLobby(input: JoinLobbyInput!): Viewer!
   leaveLobby: Viewer!
 }
 
 type Query {
+  lobbyPreview(lobbyId: String!): LobbyPreview
   viewer: Viewer!
 }
 

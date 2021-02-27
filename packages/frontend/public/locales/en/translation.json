@@ -1,7 +1,12 @@
 {
+  "metadata": {
+    "HomePage": {
+      "title": ""
+    }
+  },
   "pages": {
-    "Home": {
-      "title": "Home"
+    "HomePage": {
+      "title": ""
     },
     "Lobby": {
       "CreateLobby": {

@@ -1,6 +1,7 @@
 import { Connection, createConnection } from 'typeorm';
 
 import { LobbyEntity } from './entities/LobbyEntity';
+import { LobbyEventEntity } from './entities/LobbyEventEntity';
 
 interface Options {
   databaseUri: string;
@@ -15,6 +16,6 @@ export async function createDatabaseConnection(
     url: databaseUri,
     synchronize: false,
     logging: false,
-    entities: [LobbyEntity],
+    entities: [LobbyEntity, LobbyEventEntity],
   });
 }

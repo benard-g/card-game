@@ -1,12 +1,13 @@
 import React, {
   createContext,
   FC,
+  useCallback,
   useContext,
   useEffect,
   useState,
 } from 'react';
 
-import { config } from '../../config';
+import { authenticateUser } from './utils';
 
 //
 // Context
@@ -21,41 +22,58 @@ const API_AUTH_CONTEXT = createContext<Context | undefined>(undefined);
 //
 // Provider
 //
-async function authenticate() {
-  const authUri = `${config.API_URI}/api/auth/authenticate`;
-  return fetch(authUri, { method: 'POST', credentials: 'include' });
+interface State {
+  authenticated: boolean;
+  loading: boolean;
+  error?: Error;
 }
 
 export const ApiAuthProvider: FC = (props) => {
   const { children } = props;
 
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<Error | undefined>(undefined);
+  const [state, setState] = useState<State>({
+    authenticated: false,
+    loading: true,
+    error: undefined,
+  });
+
+  const doAuth = useCallback(async () => {
+    try {
+      const response = await authenticateUser();
+      if (!response.ok) {
+        setState({
+          authenticated: false,
+          loading: false,
+          error: new Error('Auth failed'),
+        });
+        return;
+      }
+
+      setState({
+        authenticated: true,
+        loading: false,
+        error: undefined,
+      });
+    } catch (err) {
+      setState({
+        authenticated: false,
+        loading: false,
+        error: err,
+      });
+    }
+  }, []);
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (state.authenticated || state.error) {
       return;
     }
-
-    authenticate()
-      .then((response) => {
-        if (!response.ok) {
-          setError(new Error('Auth failed'));
-          return;
-        }
-        setIsAuthenticated(true);
-      })
-      .catch((err) => {
-        setError(err);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [isAuthenticated, loading]);
+    doAuth();
+  }, [state, doAuth]);
 
   return (
-    <API_AUTH_CONTEXT.Provider value={{ loading, error }}>
+    <API_AUTH_CONTEXT.Provider
+      value={{ loading: state.loading, error: state.error }}
+    >
       {children}
     </API_AUTH_CONTEXT.Provider>
   );

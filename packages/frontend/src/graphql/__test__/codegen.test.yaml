@@ -1,0 +1,19 @@
+overwrite: true
+schema: '../../schema.graphql'
+documents:
+  - 'src/**/*{.graphql,.ts,.tsx}'
+  - '!src/graphql/codegen.tsx'
+  - '!src/graphql/codegenPossibleTypes.tsx'
+generates:
+  src/graphql/__test__/build/codegenPossibleTypes.tsx:
+    plugins:
+      - 'fragment-matcher'
+  src/graphql/__test__/build/codegen.tsx:
+    plugins:
+      - 'typescript'
+      - 'typescript-operations'
+      - 'typescript-react-apollo'
+      - 'named-operations-object'
+hooks:
+  afterAllFileWrite:
+    - eslint --fix

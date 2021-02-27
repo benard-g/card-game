@@ -15,7 +15,7 @@
     "eject": "react-scripts eject"
   },
   "engines": {
-    "node": "v14.15.4"
+    "node": "v14.16.0"
   },
   "browserslist": {
     "production": [
@@ -30,9 +30,9 @@
     ]
   },
   "dependencies": {
-    "@apollo/client": "^3.3.7",
+    "@apollo/client": "^3.3.11",
     "@packages/lib-shared": "*",
-    "graphql": "^15.4.0",
+    "graphql": "^15.5.0",
     "i18next": "^19.8.5",
     "i18next-browser-languagedetector": "^6.0.1",
     "i18next-http-backend": "^1.1.0",
@@ -46,6 +46,7 @@
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^1.19.2",
+    "@graphql-codegen/fragment-matcher": "^2.0.1",
     "@graphql-codegen/named-operations-object": "^1.17.9",
     "@graphql-codegen/typescript": "^1.17.11",
     "@graphql-codegen/typescript-operations": "^1.17.10",
@@ -74,7 +75,8 @@
   "jest": {
     "coveragePathIgnorePatterns": [
       "index.tsx?",
-      "generated.tsx"
+      "codegen.tsx",
+      "codegenPossibleTypes.tsx"
     ]
   }
 }

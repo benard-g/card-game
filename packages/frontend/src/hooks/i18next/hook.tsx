@@ -1,14 +1,15 @@
+import i18n from 'i18next';
+import LanguageDetector from 'i18next-browser-languagedetector';
+import Backend from 'i18next-http-backend';
 import React, {
   createContext,
   FC,
+  useCallback,
   useContext,
   useEffect,
   useState,
 } from 'react';
 import { initReactI18next } from 'react-i18next';
-import i18n from 'i18next';
-import LanguageDetector from 'i18next-browser-languagedetector';
-import Backend from 'i18next-http-backend';
 
 //
 // Context
@@ -24,48 +25,65 @@ const I18NEXT_CONTEXT = createContext<Context | undefined>(undefined);
 //
 // Provider
 //
-interface ProviderProps {
+interface Props {
   fallbackLanguage: string;
   languages: string[];
 }
 
-export const I18nextProvider: FC<ProviderProps> = (props) => {
+interface State {
+  loading: boolean;
+  ready: boolean;
+  error?: Error;
+}
+
+export const I18nextProvider: FC<Props> = (props) => {
   const { children, fallbackLanguage, languages } = props;
 
-  const [loading, setLoading] = useState(true);
-  const [ready, setReady] = useState(false);
-  const [error, setError] = useState<Error | undefined>(undefined);
+  const [state, setState] = useState<State>({
+    loading: true,
+    ready: false,
+    error: undefined,
+  });
+
+  const loadI18n = useCallback(async () => {
+    try {
+      await i18n
+        .use(Backend)
+        .use(LanguageDetector)
+        .use(initReactI18next)
+        .init({
+          fallbackLng: fallbackLanguage,
+          whitelist: languages,
+          react: { wait: true },
+          debug: false,
+          returnEmptyString: false,
+          returnObjects: true,
+        });
+      setState({
+        ready: true,
+        loading: false,
+        error: undefined,
+      });
+    } catch (err) {
+      setState({
+        ready: false,
+        loading: false,
+        error: err,
+      });
+    }
+  }, [fallbackLanguage, languages]);
 
   useEffect(() => {
-    if (ready) {
+    if (state.ready || state.error) {
       return;
     }
-
-    i18n
-      .use(Backend)
-      .use(LanguageDetector)
-      .use(initReactI18next)
-      .init({
-        fallbackLng: fallbackLanguage,
-        whitelist: languages,
-        react: { wait: true },
-        debug: false,
-        returnEmptyString: false,
-        returnObjects: true,
-      })
-      .then(() => {
-        setReady(true);
-      })
-      .catch((err) => {
-        setError(err);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [loading, ready, fallbackLanguage, languages]);
+    loadI18n();
+  }, [state, loadI18n]);
 
   return (
-    <I18NEXT_CONTEXT.Provider value={{ loading, error, languages }}>
+    <I18NEXT_CONTEXT.Provider
+      value={{ loading: state.loading, error: state.error, languages }}
+    >
       {children}
     </I18NEXT_CONTEXT.Provider>
   );
