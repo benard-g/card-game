@@ -42,5 +42,5 @@ describe('graphql/codegen', () => {
     const originalTypesGeneration = await readFile(TYPES_GENERATION_PATH);
     const testTypesGeneration = await readFile(TEST_TYPES_GENERATION_PATH);
     expect(originalTypesGeneration).toEqual(testTypesGeneration);
-  });
+  }, 15000);
 });
