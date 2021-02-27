@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import { Redirect, Route, Switch, useRouteMatch } from 'react-router-dom';
 
+import LobbyJoinPage from './LobbyJoinPage';
 import LobbyViewPage from './LobbyViewPage';
 
 const LobbyRoutes: FC = () => {
@@ -10,6 +11,10 @@ const LobbyRoutes: FC = () => {
     <Switch>
       <Route exact path={`${path}`}>
         <LobbyViewPage />
+      </Route>
+
+      <Route path={`${path}/join`}>
+        <LobbyJoinPage />
       </Route>
 
       <Route path="*">

@@ -35,6 +35,12 @@ export type LobbyMember = {
   role: Scalars['String'];
 };
 
+export type LobbyPreview = {
+  __typename?: 'LobbyPreview';
+  id: Scalars['ID'];
+  nbMembers: Scalars['Int'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createLobby: Viewer;
@@ -52,7 +58,12 @@ export type MutationJoinLobbyArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  lobbyPreview?: Maybe<LobbyPreview>;
   viewer: Viewer;
+};
+
+export type QueryLobbyPreviewArgs = {
+  lobbyId: Scalars['String'];
 };
 
 export type Viewer = {
@@ -99,6 +110,29 @@ export type HomePageQuery = { __typename?: 'Query' } & {
 export type LobbyPageQueryVariables = Exact<{ [key: string]: never }>;
 
 export type LobbyPageQuery = { __typename?: 'Query' } & {
+  viewer: { __typename?: 'Viewer' } & Pick<Viewer, 'id'> & {
+      lobby?: Maybe<{ __typename?: 'Lobby' } & LobbyFragmentFragment>;
+    };
+};
+
+export type JoinLobbyMutationVariables = Exact<{
+  input: JoinLobbyInput;
+}>;
+
+export type JoinLobbyMutation = { __typename?: 'Mutation' } & {
+  joinLobby: { __typename?: 'Viewer' } & Pick<Viewer, 'id'> & {
+      lobby?: Maybe<{ __typename?: 'Lobby' } & LobbyFragmentFragment>;
+    };
+};
+
+export type LobbyJoinPageQueryVariables = Exact<{
+  lobbyId: Scalars['String'];
+}>;
+
+export type LobbyJoinPageQuery = { __typename?: 'Query' } & {
+  lobbyPreview?: Maybe<
+    { __typename?: 'LobbyPreview' } & Pick<LobbyPreview, 'id' | 'nbMembers'>
+  >;
   viewer: { __typename?: 'Viewer' } & Pick<Viewer, 'id'> & {
       lobby?: Maybe<{ __typename?: 'Lobby' } & LobbyFragmentFragment>;
     };
@@ -328,14 +362,132 @@ export type LobbyPageQueryResult = Apollo.QueryResult<
   LobbyPageQuery,
   LobbyPageQueryVariables
 >;
+export const JoinLobbyDocument = gql`
+  mutation JoinLobby($input: JoinLobbyInput!) {
+    joinLobby(input: $input) {
+      id
+      lobby {
+        ...LobbyFragment
+      }
+    }
+  }
+  ${LobbyFragmentFragmentDoc}
+`;
+export type JoinLobbyMutationFn = Apollo.MutationFunction<
+  JoinLobbyMutation,
+  JoinLobbyMutationVariables
+>;
+
+/**
+ * __useJoinLobbyMutation__
+ *
+ * To run a mutation, you first call `useJoinLobbyMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useJoinLobbyMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [joinLobbyMutation, { data, loading, error }] = useJoinLobbyMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useJoinLobbyMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    JoinLobbyMutation,
+    JoinLobbyMutationVariables
+  >,
+) {
+  return Apollo.useMutation<JoinLobbyMutation, JoinLobbyMutationVariables>(
+    JoinLobbyDocument,
+    baseOptions,
+  );
+}
+export type JoinLobbyMutationHookResult = ReturnType<
+  typeof useJoinLobbyMutation
+>;
+export type JoinLobbyMutationResult = Apollo.MutationResult<JoinLobbyMutation>;
+export type JoinLobbyMutationOptions = Apollo.BaseMutationOptions<
+  JoinLobbyMutation,
+  JoinLobbyMutationVariables
+>;
+export const LobbyJoinPageDocument = gql`
+  query LobbyJoinPage($lobbyId: String!) {
+    lobbyPreview(lobbyId: $lobbyId) {
+      id
+      nbMembers
+    }
+    viewer {
+      id
+      lobby {
+        ...LobbyFragment
+      }
+    }
+  }
+  ${LobbyFragmentFragmentDoc}
+`;
+
+/**
+ * __useLobbyJoinPageQuery__
+ *
+ * To run a query within a React component, call `useLobbyJoinPageQuery` and pass it any options that fit your needs.
+ * When your component renders, `useLobbyJoinPageQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useLobbyJoinPageQuery({
+ *   variables: {
+ *      lobbyId: // value for 'lobbyId'
+ *   },
+ * });
+ */
+export function useLobbyJoinPageQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    LobbyJoinPageQuery,
+    LobbyJoinPageQueryVariables
+  >,
+) {
+  return Apollo.useQuery<LobbyJoinPageQuery, LobbyJoinPageQueryVariables>(
+    LobbyJoinPageDocument,
+    baseOptions,
+  );
+}
+export function useLobbyJoinPageLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    LobbyJoinPageQuery,
+    LobbyJoinPageQueryVariables
+  >,
+) {
+  return Apollo.useLazyQuery<LobbyJoinPageQuery, LobbyJoinPageQueryVariables>(
+    LobbyJoinPageDocument,
+    baseOptions,
+  );
+}
+export type LobbyJoinPageQueryHookResult = ReturnType<
+  typeof useLobbyJoinPageQuery
+>;
+export type LobbyJoinPageLazyQueryHookResult = ReturnType<
+  typeof useLobbyJoinPageLazyQuery
+>;
+export type LobbyJoinPageQueryResult = Apollo.QueryResult<
+  LobbyJoinPageQuery,
+  LobbyJoinPageQueryVariables
+>;
 export const namedOperations = {
   Query: {
     HomePage: 'HomePage',
     LobbyPage: 'LobbyPage',
+    LobbyJoinPage: 'LobbyJoinPage',
   },
   Mutation: {
     CreateLobby: 'CreateLobby',
     LeaveLobby: 'LeaveLobby',
+    JoinLobby: 'JoinLobby',
   },
   Fragment: {
     LobbyFragment: 'LobbyFragment',
