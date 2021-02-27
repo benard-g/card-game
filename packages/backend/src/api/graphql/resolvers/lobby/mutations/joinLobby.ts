@@ -36,16 +36,11 @@ export async function joinLobby(
     logger.info('[graphql][LobbyResolver] #joinLobby: Lobby not found', {
       lobbyCode,
     });
-    throw new ApolloError('Lobby is not joinable', ErrorCode.LOBBY_NOT_FOUND);
+    throw new ApolloError('Lobby not found', ErrorCode.LOBBY_NOT_FOUND);
   }
 
   try {
     const { joiningUser } = await lobbyCore.joinLobby(lobby, user, userName);
-
-    logger.info('[graphql][LobbyResolver] #joinLobby: Lobby joined', {
-      lobbyCode,
-    });
-
     await updateLobbyInContext(serviceLocator, context, joiningUser.lobbyId);
 
     return { id: user.id };
@@ -57,7 +52,7 @@ export async function joinLobby(
         { lobbyId },
       );
       throw new ApolloError(
-        'Lobby creation failed',
+        'Could not join Lobby',
         ErrorCode.USER_ALREADY_IN_LOBBY,
       );
     }

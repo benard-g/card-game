@@ -31,10 +31,6 @@ export async function createLobby(
   try {
     const { lobby } = await lobbyCore.createLobby(user, userName);
 
-    logger.info('[graphql][LobbyResolver] #createLobby: Lobby created', {
-      lobbyId: lobby.id,
-    });
-
     await updateLobbyInContext(serviceLocator, context, lobby.id);
 
     return { id: user.id };

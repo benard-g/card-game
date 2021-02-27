@@ -23,6 +23,11 @@ type LobbyMember {
   role: String!
 }
 
+type LobbyPreview {
+  id: ID!
+  nbMembers: Int!
+}
+
 type Mutation {
   createLobby(input: CreateLobbyInput!): Viewer!
   joinLobby(input: JoinLobbyInput!): Viewer!
@@ -30,6 +35,7 @@ type Mutation {
 }
 
 type Query {
+  lobbyPreview(lobbyId: String!): LobbyPreview
   viewer: Viewer!
 }
 
