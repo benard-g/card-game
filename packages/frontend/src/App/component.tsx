@@ -2,8 +2,8 @@ import React, { FC } from 'react';
 
 import Loader from '../components/Loader';
 
-import { useAppReady } from './hook';
-import Routes from './Routes';
+import { useAppReady } from './hooks';
+import Routes from './routes';
 import { Root } from './styles';
 
 const App: FC = () => {
@@ -18,6 +18,7 @@ const App: FC = () => {
   }
 
   if (error) {
+    // eslint-disable-next-line no-console
     console.error(error);
     return (
       <Root>

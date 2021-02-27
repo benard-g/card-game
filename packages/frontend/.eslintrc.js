@@ -9,6 +9,7 @@ module.exports = {
     react: { version: 'detect' },
   },
   rules: {
+    'no-console': 'error',
     'react/prop-types': 'off',
     'react-hooks/rules-of-hooks': 'warn',
     'react-hooks/exhaustive-deps': 'warn',
