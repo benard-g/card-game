@@ -24,17 +24,23 @@ async function readFile(filePath: string) {
   });
 }
 
-describe('services/graphql/generated', () => {
-  const ORIGINAL_GENERATION_PATH = `${__dirname}/generated.tsx`;
-  const TEST_GENERATION_PATH = '/tmp/card_game-graphql-generated.tsx';
+describe('graphql/codegen', () => {
+  const GENERATION_PATH = `${__dirname}/../codegen.tsx`;
+  const TYPES_GENERATION_PATH = `${__dirname}/../codegenPossibleTypes.tsx`;
+
+  const TEST_GENERATION_PATH = `${__dirname}/build/codegen.tsx`;
+  const TEST_TYPES_GENERATION_PATH = `${__dirname}/build/codegenPossibleTypes.tsx`;
 
   it('should provide up-to-date generations from schema', async () => {
     // Generates code from current schema
     await exec(`yarn graphql-codegen --config ${__dirname}/codegen.test.yaml`);
 
-    const originalGeneration = await readFile(ORIGINAL_GENERATION_PATH);
+    const originalGeneration = await readFile(GENERATION_PATH);
     const testGeneration = await readFile(TEST_GENERATION_PATH);
-
     expect(originalGeneration).toEqual(testGeneration);
+
+    const originalTypesGeneration = await readFile(TYPES_GENERATION_PATH);
+    const testTypesGeneration = await readFile(TEST_TYPES_GENERATION_PATH);
+    expect(originalTypesGeneration).toEqual(testTypesGeneration);
   });
 });

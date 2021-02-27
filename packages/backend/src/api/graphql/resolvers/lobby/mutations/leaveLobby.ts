@@ -31,9 +31,6 @@ export async function leaveLobby(
   }
 
   const { leavingUser } = await lobbyCore.leaveLobby(lobby, user);
-  logger.info('[graphql][LobbyResolver] #leaveLobby: Lobby left', {
-    lobbyId,
-  });
   await updateLobbyInContext(serviceLocator, context, leavingUser.lobbyId);
 
   return { id: user.id };

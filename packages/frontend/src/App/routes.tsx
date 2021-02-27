@@ -7,10 +7,10 @@ import {
   Switch,
 } from 'react-router-dom';
 
-import Loader from '../../components/Loader';
-import HomePage from '../../pages/Home';
+import Loader from '../components/Loader';
+import HomePage from '../pages/HomePage';
 
-const LobbyPage = lazy(() => import('../../pages/Lobby'));
+const LobbyPage = lazy(() => import('../pages/LobbyPage'));
 
 const LazyRoute: FC<RouteProps> = ({ children, ...props }) => {
   return (
@@ -28,7 +28,7 @@ const Routes: FC = () => {
           <HomePage />
         </Route>
 
-        <LazyRoute path="/lobbies">
+        <LazyRoute path="/lobby">
           <LobbyPage />
         </LazyRoute>
 

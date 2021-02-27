@@ -11,6 +11,7 @@ const spacings = {
   abs16: '16px',
   abs24: '24px',
   abs32: '32px',
+  abs40: '40px',
   abs48: '48px',
 } as const;
 type Spacings = typeof spacings;
