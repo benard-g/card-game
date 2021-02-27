@@ -5,7 +5,6 @@ module.exports = {
   },
   extends: ['plugin:react/recommended'],
   plugins: ['react-hooks'],
-  ignorePatterns: ['src/services/graphql/generated.tsx'],
   settings: {
     react: { version: 'detect' },
   },
