@@ -4,6 +4,7 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToOne,
   PrimaryColumn,
 } from 'typeorm';
 
@@ -12,7 +13,7 @@ import { LobbyEntity } from './LobbyEntity';
 @Entity('lobbies_events')
 export class LobbyEventEntity {
   @PrimaryColumn()
-  public lobbyId!: number;
+  public lobbyId!: string;
 
   @PrimaryColumn()
   public id!: number;
@@ -26,7 +27,9 @@ export class LobbyEventEntity {
   @CreateDateColumn({ type: 'timestamptz' })
   public createdAt?: Date;
 
-  @ManyToOne(() => LobbyEntity, (lobby) => lobby.lobbyEvents)
+  @ManyToOne(() => LobbyEntity, (lobby) => lobby.lobbyEvents, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'lobbyId' })
   public lobby?: LobbyEntity;
 }

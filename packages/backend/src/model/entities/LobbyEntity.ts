@@ -3,7 +3,7 @@ import {
   Entity,
   Index,
   OneToMany,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
@@ -11,14 +11,14 @@ import { Lobby } from '../../core/types/Lobby';
 
 import { LobbyEventEntity } from './LobbyEventEntity';
 
+export const LobbyEntityIndex = {
+  updatedAt: 'Index_updatedAt',
+} as const;
+
 @Entity('lobbies')
 export class LobbyEntity {
-  @PrimaryGeneratedColumn()
-  public id!: number;
-
-  @Index({ unique: true })
-  @Column()
-  public code!: string;
+  @PrimaryColumn()
+  public id!: string;
 
   @Column()
   public version!: number;
@@ -26,12 +26,10 @@ export class LobbyEntity {
   @Column({ type: 'jsonb' })
   public cache!: Lobby;
 
-  @Index()
+  @Index(LobbyEntityIndex.updatedAt)
   @UpdateDateColumn({ type: 'timestamptz' })
   public updatedAt?: Date;
 
-  @OneToMany(() => LobbyEventEntity, (lobbyEvent) => lobbyEvent.lobby, {
-    onDelete: 'CASCADE',
-  })
+  @OneToMany(() => LobbyEventEntity, (lobbyEvent) => lobbyEvent.lobby)
   public lobbyEvents?: LobbyEventEntity[];
 }

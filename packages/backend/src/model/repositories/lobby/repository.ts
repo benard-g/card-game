@@ -19,7 +19,7 @@ export class LobbyRepository {
       const lobbyEventTable = entityManager.getRepository(LobbyEventEntity);
 
       const lobbyEntity = await lobbyTable.save({
-        code: lobby.code,
+        id: lobby.id,
         version: lobby.version,
         cache: lobby,
       });
@@ -58,13 +58,8 @@ export class LobbyRepository {
     });
   }
 
-  public async getLobbyById(id: number): Promise<LobbyEntity | undefined> {
+  public async getLobbyById(id: string): Promise<LobbyEntity | undefined> {
     const lobbyTable = this.conn.getRepository(LobbyEntity);
     return lobbyTable.findOne({ id });
-  }
-
-  public async getLobbyByCode(code: string): Promise<LobbyEntity | undefined> {
-    const lobbyTable = this.conn.getRepository(LobbyEntity);
-    return lobbyTable.findOne({ code });
   }
 }
