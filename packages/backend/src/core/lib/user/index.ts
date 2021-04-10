@@ -1,1 +1,1 @@
-export * from './core';
+export { UserCore } from './core';

@@ -1,6 +1,6 @@
 import SuperTest from 'supertest';
 
-import { Server } from '../../src/Server';
+import { Server } from '../../src/api/Server';
 import { Logger } from '../../src/utils/Logger';
 import { globalServiceLocator } from '../../src/utils/ServiceLocator';
 

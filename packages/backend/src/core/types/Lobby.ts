@@ -1,17 +1,7 @@
-export enum LobbyMemberRole {
-  ADMIN = 'admin',
-  INVITEE = 'invitee',
-}
-
-export interface LobbyMember {
-  id: string;
-  name: string;
-  role: LobbyMemberRole;
-}
+import { LobbyMember } from './LobbyMember';
 
 export interface Lobby {
-  id: number;
-  code: string;
+  id: string;
   version: number;
   members: LobbyMember[];
 }

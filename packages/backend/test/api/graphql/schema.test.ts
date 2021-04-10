@@ -2,7 +2,7 @@ import { readFile } from 'fs/promises';
 
 import { buildSchema } from '../../../src/api/graphql/schema';
 
-describe('graphql/schema', () => {
+describe('api/graphql/schema', () => {
   const ORIGINAL_SCHEMA_PATH = '../../schema.graphql';
   const TEST_SCHEMA_PATH = '/tmp/card-game-test-schema.graphql';
 

@@ -1,8 +1,8 @@
-import { Lobby, LobbyMemberRole } from '../../../types/Lobby';
+import { Lobby } from '../../../types/Lobby';
+import { LobbyMemberRole } from '../../../types/LobbyMemberRole';
 import { User } from '../../../types/User';
 import { incrementLobbyVersion } from '../utils/incrementLobbyVersion';
 
-// Event definition
 const EVENT_NAME = 'LOBBY_LEAVE';
 
 export interface LobbyEvent {
@@ -14,14 +14,13 @@ export interface LobbyEvent {
   };
 }
 
-// Event implementation
 interface LeaveLobby {
   leavingUser: User;
-  lobby: Lobby;
+  updatedLobby: Lobby;
   lobbyLeaveEvent: LobbyEvent;
 }
 
-export function createEvent(lobby: Lobby, user: User): LeaveLobby {
+export function executeEvent(lobby: Lobby, user: User): LeaveLobby {
   const userIdx = lobby.members.findIndex((m) => m.id === user.id);
   let newAdminIdx: number | undefined = undefined;
 
@@ -44,7 +43,7 @@ export function createEvent(lobby: Lobby, user: User): LeaveLobby {
       ...user,
       lobbyId: undefined,
     },
-    lobby: updatedLobby,
+    updatedLobby,
     lobbyLeaveEvent: {
       id: updatedLobby.version,
       name: EVENT_NAME,

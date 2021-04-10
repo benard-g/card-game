@@ -11,7 +11,7 @@ import { Lobby } from '../../core/types/Lobby';
 
 import { LobbyEventEntity } from './LobbyEventEntity';
 
-export const LobbyEntityIndex = {
+export const INDEXES = {
   updatedAt: 'Index_updatedAt',
 } as const;
 
@@ -26,7 +26,7 @@ export class LobbyEntity {
   @Column({ type: 'jsonb' })
   public cache!: Lobby;
 
-  @Index(LobbyEntityIndex.updatedAt)
+  @Index(INDEXES.updatedAt)
   @UpdateDateColumn({ type: 'timestamptz' })
   public updatedAt?: Date;
 

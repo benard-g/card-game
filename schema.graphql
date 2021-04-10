@@ -20,7 +20,12 @@ type Lobby {
 type LobbyMember {
   id: ID!
   name: String!
-  role: String!
+  role: LobbyMemberRole!
+}
+
+enum LobbyMemberRole {
+  ADMIN
+  INVITEE
 }
 
 type LobbyPreview {
@@ -35,7 +40,7 @@ type Mutation {
 }
 
 type Query {
-  lobbyPreview(lobbyId: String!): LobbyPreview
+  findLobbyById(lobbyId: String!): LobbyPreview
   viewer: Viewer!
 }
 

@@ -29,11 +29,14 @@ export async function createLobby(
   logger.info('[graphql][LobbyResolver] #createLobby');
 
   try {
-    const { lobby } = await lobbyCore.createLobby(user, userName);
+    const { creatingUser, createdLobby } = await lobbyCore.createLobby(
+      user,
+      userName,
+    );
 
-    await updateLobbyInContext(serviceLocator, context, lobby.id);
+    await updateLobbyInContext(serviceLocator, context, createdLobby.id);
 
-    return { id: user.id };
+    return { id: creatingUser.id };
   } catch (err) {
     if (err instanceof UserAlreadyInLobbyError) {
       const { lobbyId } = err;

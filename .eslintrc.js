@@ -25,6 +25,7 @@ module.exports = {
       'error',
       { vars: 'all', args: 'all', argsIgnorePattern: '^_' },
     ],
+    'no-console': 'error',
     'no-return-await': 'error',
     'simple-import-sort/imports': 'error',
     'sort-imports': 'off',

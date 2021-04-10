@@ -2,6 +2,7 @@ import { LobbyCore } from '../../../../../core/lib/lobby';
 import { ServiceLocator } from '../../../../../utils/ServiceLocator';
 import { Context } from '../../../Context';
 import { LobbyType } from '../../../entities/LobbyType';
+import { formatLobbyType } from '../../../utils/formatters/formatLobbyType';
 import { updateLobbyInContext } from '../../../utils/updateLobbyContext';
 
 export async function viewerLobby(
@@ -22,12 +23,5 @@ export async function viewerLobby(
     return undefined;
   }
 
-  return {
-    id: lobby.code,
-    members: lobby.members.map((member) => ({
-      id: member.id,
-      name: member.name,
-      role: member.role,
-    })),
-  };
+  return formatLobbyType(lobby);
 }

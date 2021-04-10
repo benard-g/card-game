@@ -5,13 +5,13 @@ import 'source-map-support/register';
 
 import { Connection } from 'typeorm';
 
+import { Server } from './api/Server';
 import { loadConfig } from './config/Config';
 import { createDatabaseConnection } from './model/database';
-import { CookieSetter } from './utils/CookieSetter';
-import { Jwt } from './utils/Jwt';
+import { CookieService } from './services/CookieService';
+import { JwtService } from './services/JwtService';
 import { Logger } from './utils/Logger';
 import { globalServiceLocator } from './utils/ServiceLocator';
-import { Server } from './Server';
 
 const config = loadConfig();
 
@@ -29,19 +29,19 @@ async function main(): Promise<void> {
   const processServiceLocator = globalServiceLocator.child();
 
   // Init DB connection
-  logger.info('[server] Connecting to database...');
+  logger.info('[server] Database connection in progress...');
   const conn = await createDatabaseConnection({
     databaseUri: config.DATABASE_URI,
   });
   processServiceLocator.set(Connection, conn);
-  logger.info('[server] Connected to database');
+  logger.info('[server] Database connection success');
 
   // Init services
-  processServiceLocator.set(Jwt, new Jwt(config.JWT_SECRET_KEY));
-  processServiceLocator.set(CookieSetter, new CookieSetter(isDevMode));
+  processServiceLocator.set(JwtService, new JwtService(config.JWT_SECRET_KEY));
+  processServiceLocator.set(CookieService, new CookieService(isDevMode));
 
   // Init server
-  logger.info('[server] Creating new Server instance...');
+  logger.info('[server] Server instance initializing...');
   const server = new Server(processServiceLocator);
   await server.init({
     isDevMode,
@@ -50,12 +50,11 @@ async function main(): Promise<void> {
       allowedCorsOrigin: config.SERVER_CORS_ALLOWED_ORIGIN || undefined,
     },
   });
-  logger.info('[server] Server instance created');
+  logger.info('[server] Server instance initialized');
 
-  const port = config.PORT;
-  logger.info('[server] Starting server...', { port });
-  await server.start({ port });
-  logger.info('[server] Server started');
+  logger.info('[server] Server starting...');
+  const { port } = await server.start({ port: config.PORT });
+  logger.info('[server] Server started', { port });
 }
 
 if (require.main === module) {

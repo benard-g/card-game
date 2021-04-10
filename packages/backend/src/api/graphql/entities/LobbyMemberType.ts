@@ -1,5 +1,7 @@
 import { Field, ID, ObjectType } from 'type-graphql';
 
+import { LobbyMemberRoleType } from './LobbyMemberRoleType';
+
 @ObjectType('LobbyMember')
 export class LobbyMemberType {
   @Field(() => ID)
@@ -8,6 +10,6 @@ export class LobbyMemberType {
   @Field()
   public name!: string;
 
-  @Field()
-  public role!: string;
+  @Field(() => LobbyMemberRoleType)
+  public role!: LobbyMemberRoleType;
 }

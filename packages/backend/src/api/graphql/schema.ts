@@ -1,6 +1,7 @@
 import * as TypeGraphql from 'type-graphql';
 
-import { LobbyResolver, ViewerResolver } from './resolvers';
+import { LobbyResolver } from './resolvers/lobby';
+import { ViewerResolver } from './resolvers/viewer';
 
 interface Options {
   emitSchemaFile: string | false;

@@ -23,15 +23,18 @@ export async function leaveLobby(
 
   const lobby = await lobbyCore.findLobbyById(lobbyId);
   if (!lobby) {
-    logger.info('[graphql][LobbyResolver] #leaveLobby: Lobby does not exist', {
-      lobbyId,
-    });
+    logger.info(
+      '[graphql][LobbyResolver] #leaveLobby: Associated lobby not in DB',
+      { lobbyId },
+    );
     await updateLobbyInContext(serviceLocator, context, undefined);
     return { id: user.id };
   }
 
   const { leavingUser } = await lobbyCore.leaveLobby(lobby, user);
-  await updateLobbyInContext(serviceLocator, context, leavingUser.lobbyId);
 
-  return { id: user.id };
+  await updateLobbyInContext(serviceLocator, context, undefined);
+  // TODO publish event
+
+  return { id: leavingUser.id };
 }

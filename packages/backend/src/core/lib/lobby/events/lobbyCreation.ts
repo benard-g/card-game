@@ -1,31 +1,28 @@
 import { UserAlreadyInLobbyError } from '../../../errors/UserAlreadyInLobbyError';
-import { Lobby, LobbyMember, LobbyMemberRole } from '../../../types/Lobby';
+import { Lobby } from '../../../types/Lobby';
+import { LobbyMember } from '../../../types/LobbyMember';
+import { LobbyMemberRole } from '../../../types/LobbyMemberRole';
 import { User } from '../../../types/User';
-import { formatLobbyMember } from '../utils/formatLobbyMember';
-import { generateCode } from '../utils/generateCode';
+import { formatLobbyMember } from '../utils/formatters/formatLobbyMember';
+import { generateLobbyCode } from '../utils/generateLobbyCode';
 
-// Event definition
 const EVENT_NAME = 'LOBBY_CREATION';
 
 export interface LobbyEvent {
   id: number;
   name: typeof EVENT_NAME;
   payload: {
-    code: string;
-    user: LobbyMember;
+    creatingUser: LobbyMember;
   };
 }
 
-// Event implementation
-const LOBBY_CODE_LENGTH = 6;
-
-interface CreateNewLobby {
-  creator: User;
-  lobby: Lobby;
+interface Response {
+  creatingUser: User;
+  createdLobby: Lobby;
   lobbyCreationEvent: LobbyEvent;
 }
 
-export function createEvent(creator: User, name: string): CreateNewLobby {
+export function executeEvent(creator: User, name: string): Response {
   if (creator.lobbyId) {
     throw new UserAlreadyInLobbyError(creator.lobbyId);
   }
@@ -34,25 +31,23 @@ export function createEvent(creator: User, name: string): CreateNewLobby {
     name,
     role: LobbyMemberRole.ADMIN,
   });
-  const lobby: Lobby = {
-    id: 0,
-    code: generateCode(LOBBY_CODE_LENGTH),
+  const createdLobby: Lobby = {
+    id: generateLobbyCode(),
     version: 1,
     members: [lobbyMember],
   };
 
   return {
-    creator: {
+    creatingUser: {
       ...creator,
-      lobbyId: lobby.id,
+      lobbyId: createdLobby.id,
     },
-    lobby,
+    createdLobby,
     lobbyCreationEvent: {
-      id: lobby.version,
+      id: createdLobby.version,
       name: EVENT_NAME,
       payload: {
-        code: lobby.code,
-        user: lobbyMember,
+        creatingUser: lobbyMember,
       },
     },
   };

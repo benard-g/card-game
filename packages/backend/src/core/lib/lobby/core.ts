@@ -3,9 +3,9 @@ import { Service } from '../../../utils/ServiceLocator';
 import { Lobby } from '../../types/Lobby';
 import { User } from '../../types/User';
 
-import * as LobbyEventCreation from './events/lobbyCreation';
-import * as LobbyEventJoin from './events/lobbyJoin';
-import * as LobbyEventLeave from './events/lobbyLeave';
+import * as LobbyCreationEvent from './events/lobbyCreation';
+import * as LobbyJoinEvent from './events/lobbyJoin';
+import * as LobbyLeaveEvent from './events/lobbyLeave';
 
 @Service()
 export class LobbyCore {
@@ -13,53 +13,39 @@ export class LobbyCore {
 
   public async createLobby(user: User, userName: string) {
     const {
-      creator,
-      lobby,
+      creatingUser,
       lobbyCreationEvent,
-    } = LobbyEventCreation.createEvent(user, userName);
-    await this.lobbyRepository.createLobby(lobby, lobbyCreationEvent);
-    return { creator, lobby };
+      createdLobby,
+    } = LobbyCreationEvent.executeEvent(user, userName);
+    await this.lobbyRepository.createLobby(createdLobby, lobbyCreationEvent);
+    return { creatingUser, lobbyCreationEvent, createdLobby };
   }
 
-  public async findLobbyById(lobbyId: number): Promise<Lobby | undefined> {
+  public async findLobbyById(lobbyId: string): Promise<Lobby | undefined> {
     const lobbyEntity = await this.lobbyRepository.getLobbyById(lobbyId);
     if (!lobbyEntity) {
       return undefined;
     }
-    // The cache id may be invalid after the first insert so we manually
-    // ensure its consistency
-    lobbyEntity.cache.id = lobbyEntity.id;
-    return lobbyEntity.cache;
-  }
-
-  public async findLobbyByCode(lobbyCode: string): Promise<Lobby | undefined> {
-    const lobbyEntity = await this.lobbyRepository.getLobbyByCode(lobbyCode);
-    if (!lobbyEntity) {
-      return undefined;
-    }
-    // The cache id may be invalid after the first insert so we manually
-    // ensure its consistency
-    lobbyEntity.cache.id = lobbyEntity.id;
     return lobbyEntity.cache;
   }
 
   public async joinLobby(lobby: Lobby, user: User, userName: string) {
     const {
       joiningUser,
-      lobby: updatedLobby,
       lobbyJoinEvent,
-    } = LobbyEventJoin.createEvent(lobby, user, userName);
+      updatedLobby,
+    } = LobbyJoinEvent.executeEvent(lobby, user, userName);
     await this.lobbyRepository.saveLobbyEvent(lobby, lobbyJoinEvent);
-    return { joiningUser, lobby: updatedLobby };
+    return { joiningUser, lobbyJoinEvent, updatedLobby };
   }
 
   public async leaveLobby(lobby: Lobby, user: User) {
     const {
       leavingUser,
-      lobby: updatedLobby,
+      updatedLobby,
       lobbyLeaveEvent,
-    } = LobbyEventLeave.createEvent(lobby, user);
+    } = LobbyLeaveEvent.executeEvent(lobby, user);
     await this.lobbyRepository.saveLobbyEvent(updatedLobby, lobbyLeaveEvent);
-    return { leavingUser, lobby: updatedLobby };
+    return { leavingUser, lobbyLeaveEvent, updatedLobby };
   }
 }

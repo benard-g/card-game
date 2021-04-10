@@ -1,10 +1,11 @@
 import { UserAlreadyInLobbyError } from '../../../errors/UserAlreadyInLobbyError';
-import { Lobby, LobbyMember, LobbyMemberRole } from '../../../types/Lobby';
+import { Lobby } from '../../../types/Lobby';
+import { LobbyMember } from '../../../types/LobbyMember';
+import { LobbyMemberRole } from '../../../types/LobbyMemberRole';
 import { User } from '../../../types/User';
-import { formatLobbyMember } from '../utils/formatLobbyMember';
+import { formatLobbyMember } from '../utils/formatters/formatLobbyMember';
 import { incrementLobbyVersion } from '../utils/incrementLobbyVersion';
 
-// Event definition
 const EVENT_NAME = 'LOBBY_JOIN';
 
 export interface LobbyEvent {
@@ -15,14 +16,13 @@ export interface LobbyEvent {
   };
 }
 
-// Event implementation
 interface JoinLobby {
   joiningUser: User;
-  lobby: Lobby;
+  updatedLobby: Lobby;
   lobbyJoinEvent: LobbyEvent;
 }
 
-export function createEvent(
+export function executeEvent(
   lobby: Lobby,
   user: User,
   userName: string,
@@ -43,7 +43,7 @@ export function createEvent(
       ...user,
       lobbyId: updatedLobby.id,
     },
-    lobby: updatedLobby,
+    updatedLobby: updatedLobby,
     lobbyJoinEvent: {
       id: updatedLobby.version,
       name: EVENT_NAME,
