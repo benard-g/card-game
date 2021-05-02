@@ -31,7 +31,7 @@
     "pino": "^6.8.0",
     "reflect-metadata": "^0.1.13",
     "source-map-support": "^0.5.19",
-    "tsyringe": "^4.4.0",
+    "tsyringe": "^4.5.0",
     "type-graphql": "^1.1.1",
     "typeorm": "^0.2.29",
     "uuid": "^8.3.2"
